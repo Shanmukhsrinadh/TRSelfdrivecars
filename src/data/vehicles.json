@@ -1,0 +1,359 @@
+[
+  {
+    "id": 1,
+    "name": "Maruti Swift",
+    "category": "Hatchback",
+    "seats": 5,
+    "ac": true,
+    "price": 1200,
+    "fuel": "Petrol",
+    "transmission": "Manual",
+    "mileage": "22 km/l",
+    "engine": "1.2L K-Series",
+    "color": "White / Red",
+    "description": "The Maruti Swift is a popular city hatchback known for its agile handling and excellent fuel efficiency. Perfect for daily city commutes and short trips around Visakhapatnam.",
+    "features": [
+      "Power Steering",
+      "Central Locking",
+      "Music System",
+      "AC",
+      "Power Windows",
+      "ABS"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1484313352666-9e9b57a97db7?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0729?w=800&q=80&auto=format"
+    ],
+    "badge": "Most Booked"
+  },
+  {
+    "id": 2,
+    "name": "Hyundai i20",
+    "category": "Hatchback",
+    "seats": 5,
+    "ac": true,
+    "price": 1400,
+    "fuel": "Petrol",
+    "transmission": "Manual",
+    "mileage": "20 km/l",
+    "engine": "1.2L Kappa",
+    "color": "Silver / Grey",
+    "description": "The Hyundai i20 offers premium interiors and smooth ride quality in a compact package. A comfortable choice for city drives and weekend getaways.",
+    "features": [
+      "Sunroof",
+      "Touchscreen Infotainment",
+      "Rear Camera",
+      "AC",
+      "Push Start",
+      "ABS+EBD"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0729?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1484313352666-9e9b57a97db7?w=800&q=80&auto=format"
+    ],
+    "badge": "Popular"
+  },
+  {
+    "id": 3,
+    "name": "Honda Amaze",
+    "category": "Sedan",
+    "seats": 5,
+    "ac": true,
+    "price": 1600,
+    "fuel": "Petrol",
+    "transmission": "Automatic",
+    "mileage": "18 km/l",
+    "engine": "1.2L i-VTEC",
+    "color": "White / Silver",
+    "description": "The Honda Amaze is a spacious and refined sedan that blends comfort with fuel efficiency. Ideal for business travel and inter-city journeys.",
+    "features": [
+      "CVT Automatic",
+      "Touchscreen",
+      "Rear Camera",
+      "AC",
+      "Cruise Control",
+      "ABS"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1?w=800&q=80&auto=format"
+    ],
+    "badge": "Automatic"
+  },
+  {
+    "id": 4,
+    "name": "Toyota Etios",
+    "category": "Sedan",
+    "seats": 5,
+    "ac": true,
+    "price": 1500,
+    "fuel": "Petrol",
+    "transmission": "Manual",
+    "mileage": "17 km/l",
+    "engine": "1.5L Dual VVT-i",
+    "color": "White / Silver",
+    "description": "The Toyota Etios offers a spacious cabin with Toyota's legendary reliability. A great value-for-money sedan for outstation trips and corporate rides.",
+    "features": [
+      "Power Steering",
+      "Central Locking",
+      "Music System",
+      "AC",
+      "Power Windows",
+      "Dual Airbags"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1?w=800&q=80&auto=format"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Maruti Dzire",
+    "category": "Sedan",
+    "seats": 5,
+    "ac": true,
+    "price": 1450,
+    "fuel": "Petrol",
+    "transmission": "Manual",
+    "mileage": "23 km/l",
+    "engine": "1.2L K-Series",
+    "color": "White / Red",
+    "description": "The Dzire is India's most popular sedan, prized for its exceptional fuel economy and comfortable cabin. A smart choice for long outstation journeys.",
+    "features": [
+      "Automatic Climate",
+      "Infotainment",
+      "Rear Camera",
+      "AC",
+      "ESP",
+      "ABS"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1?w=800&q=80&auto=format"
+    ],
+    "badge": "Best Value"
+  },
+  {
+    "id": 6,
+    "name": "Innova Crysta",
+    "category": "MUV",
+    "seats": 7,
+    "ac": true,
+    "price": 2800,
+    "fuel": "Diesel",
+    "transmission": "Manual",
+    "mileage": "14 km/l",
+    "engine": "2.4L GD Diesel",
+    "color": "Silver / White",
+    "description": "The Toyota Innova Crysta is the gold standard for family and group travel. Premium interiors, captain seats, and a powerful diesel engine make every journey exceptionally comfortable.",
+    "features": [
+      "Captain Seats",
+      "Automatic Climate",
+      "LED Lights",
+      "Touchscreen",
+      "Rear AC",
+      "7 Airbags"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1532245235006-45bdc6b7c1ad?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1508349937151-22b68b72d5b4?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1547744152-14d985cb937f?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1544478080-afc62a3fb9e7?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1543465077-db45d34b88a5?w=800&q=80&auto=format"
+    ],
+    "badge": "Family Choice"
+  },
+  {
+    "id": 7,
+    "name": "Toyota Fortuner",
+    "category": "SUV",
+    "seats": 7,
+    "ac": true,
+    "price": 3500,
+    "fuel": "Diesel",
+    "transmission": "Automatic",
+    "mileage": "12 km/l",
+    "engine": "2.8L GD Diesel",
+    "color": "White / Black",
+    "description": "The Toyota Fortuner is the ultimate premium SUV experience — powerful, spacious, and commanding on any road. Perfect for luxury outstation travel or corporate use.",
+    "features": [
+      "4x4 Drive",
+      "Panoramic Sunroof",
+      "Leather Seats",
+      "JBL Audio",
+      "Wireless Charger",
+      "7 Airbags"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1563720223445-c2c72aba6f3f?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1544478080-afc62a3fb9e7?w=800&q=80&auto=format"
+    ],
+    "badge": "Premium"
+  },
+  {
+    "id": 8,
+    "name": "Mahindra Scorpio",
+    "category": "SUV",
+    "seats": 7,
+    "ac": true,
+    "price": 2500,
+    "fuel": "Diesel",
+    "transmission": "Manual",
+    "mileage": "13 km/l",
+    "engine": "2.2L mHawk Diesel",
+    "color": "White / Black",
+    "description": "The Mahindra Scorpio is a rugged, capable SUV built for Indian roads. Great for hilly terrain trips like Araku Valley and longer outstation journeys.",
+    "features": [
+      "High Ground Clearance",
+      "Rear AC",
+      "Music System",
+      "AC",
+      "ABS",
+      "Power Windows"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1563720223445-c2c72aba6f3f?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1544478080-afc62a3fb9e7?w=800&q=80&auto=format"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Maruti Ertiga",
+    "category": "MUV",
+    "seats": 7,
+    "ac": true,
+    "price": 2200,
+    "fuel": "Petrol",
+    "transmission": "Manual",
+    "mileage": "19 km/l",
+    "engine": "1.5L K15B",
+    "color": "White / Brown",
+    "description": "The Maruti Ertiga is a spacious, fuel-efficient MPV that's perfect for family outings and group travel. Comfortable third-row seating and smooth ride quality.",
+    "features": [
+      "7-Seat Layout",
+      "Smart Hybrid",
+      "Touchscreen",
+      "Rear Camera",
+      "AC",
+      "ABS"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1508349937151-22b68b72d5b4?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1532245235006-45bdc6b7c1ad?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1543465077-db45d34b88a5?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1544478080-afc62a3fb9e7?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1547744152-14d985cb937f?w=800&q=80&auto=format"
+    ],
+    "badge": "Group Ready"
+  },
+  {
+    "id": 10,
+    "name": "Maruti Alto",
+    "category": "Hatchback",
+    "seats": 5,
+    "ac": false,
+    "price": 900,
+    "fuel": "Petrol",
+    "transmission": "Manual",
+    "mileage": "24 km/l",
+    "engine": "0.8L F8D",
+    "color": "White / Grey",
+    "description": "The Maruti Alto is the most economical choice for short city trips. Compact, easy to park, and extremely fuel-efficient — ideal for quick errands and daily commutes.",
+    "features": [
+      "Power Steering",
+      "Central Locking",
+      "Music System",
+      "Dual Airbags",
+      "ABS"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1484313352666-9e9b57a97db7?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0729?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1?w=800&q=80&auto=format"
+    ],
+    "badge": "Budget Pick"
+  },
+  {
+    "id": 11,
+    "name": "Honda City",
+    "category": "Sedan",
+    "seats": 5,
+    "ac": true,
+    "price": 1800,
+    "fuel": "Petrol",
+    "transmission": "Automatic",
+    "mileage": "17 km/l",
+    "engine": "1.5L i-VTEC",
+    "color": "White / Red",
+    "description": "The Honda City is a premium sedan with a refined engine, excellent NVH levels, and a spacious cabin. A top pick for business class travel across Vizag.",
+    "features": [
+      "CVT Automatic",
+      "Sunroof",
+      "Lane Watch",
+      "Touchscreen",
+      "Wireless Charging",
+      "Honda Sensing"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1471357674240-e1a485acb3e1?w=800&q=80&auto=format"
+    ],
+    "badge": "Automatic"
+  },
+  {
+    "id": 12,
+    "name": "Hyundai Creta",
+    "category": "SUV",
+    "seats": 5,
+    "ac": true,
+    "price": 2600,
+    "fuel": "Petrol",
+    "transmission": "Automatic",
+    "mileage": "15 km/l",
+    "engine": "1.5L Smartstream",
+    "color": "White / Black",
+    "description": "The Hyundai Creta is India's favourite compact SUV — stylish, feature-loaded, and extremely comfortable. Great for weekend getaways and city premium rides.",
+    "features": [
+      "Panoramic Sunroof",
+      "BOSE Audio",
+      "Connected Car",
+      "Ventilated Seats",
+      "Wireless Charging",
+      "ADAS"
+    ],
+    "images": [
+      "https://images.unsplash.com/photo-1563720223445-c2c72aba6f3f?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1565043666747-69f6646db940?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80&auto=format",
+      "https://images.unsplash.com/photo-1544478080-afc62a3fb9e7?w=800&q=80&auto=format"
+    ],
+    "badge": "Popular"
+  }
+]

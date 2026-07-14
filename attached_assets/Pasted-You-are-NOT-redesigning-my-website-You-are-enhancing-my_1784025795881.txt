@@ -1,0 +1,164 @@
+You are NOT redesigning my website.
+You are enhancing my existing Hero section while preserving its structure, typography and booking form.
+The current implementation is close, but it still feels like a static OpenStreetMap page instead of a premium self-drive car landing page.
+Your job is to transform it into a living hero section.
+Overall Design Direction
+Imagine Apple Maps meets Airbnb meets Uber.
+Not Google Maps.
+Not OpenStreetMap.
+The map should feel like an elegant background design element that quietly communicates that TRSelf drive cars has cars operating across Visakhapatnam.
+Everything should feel calm, minimal and premium.
+Hero Layout
+Keep the existing layout.
+Left side
+Logo
+Navigation
+Heading
+Description
+Right side
+Large decorative map.
+The booking bar remains exactly where it is.
+Do not redesign the booking bar.
+Improve spacing only.
+Map Improvements
+The current map is visually too heavy.
+Reduce its visual weight.
+Requirements
+• Increase overall brightness.
+• Reduce road opacity by approximately 50%.
+• Buildings should almost disappear.
+• Remove unnecessary map labels.
+Only keep
+Visakhapatnam
+RK Beach
+MVP Colony
+Rushikonda
+Gajuwaka
+Everything else should be hidden.
+The map should never compete with the hero text.
+Gradient
+Do NOT stop the map at the hero text.
+Instead let the map continue underneath the text.
+Add a soft white left-to-right gradient.
+The user should still feel the map exists behind the text.
+The gradient simply improves readability.
+Zoom
+Zoom into Visakhapatnam approximately 20%.
+The current zoom is too far out.
+Roads should become slightly more visible.
+Cars should become easier to notice.
+Fleet Simulation
+This is the most important feature.
+The company owns six cars.
+Since there is no backend, simulate activity.
+Never show numbers.
+Simply create the feeling that the fleet is alive.
+Available Cars
+Three cars are available.
+These cars continuously drive around the city.
+Requirements
+• Follow actual OpenStreetMap road geometry.
+• Never move across buildings.
+• Never move randomly.
+• Rotate according to road direction.
+• Slightly different speeds.
+• Occasionally pause at intersections.
+• Smooth easing.
+Booked Cars
+Three cars are booked.
+Each booked car
+appears
+receives a pickup
+draws a blue animated route
+drives to destination
+arrives
+waits
+route fades away
+new booking starts somewhere else.
+Repeat forever.
+Route System
+Do NOT calculate live routes.
+Instead create a pool of predefined routes.
+Examples
+MVP Colony → RK Beach
+Rushikonda → Siripuram
+Airport → Railway Station
+Gajuwaka → NAD Junction
+Madhurawada → Beach Road
+Asilmetta → MVP Colony
+Create around twelve predefined routes.
+Randomly choose one each time.
+Vehicle Appearance
+Current vehicle icons are too small and grey.
+Replace them.
+Use elegant top-down car icons.
+Available cars
+Soft TRSelf drive cars blue.
+Booked cars
+Dark grey.
+Cars should cast a tiny soft shadow.
+Cars rotate naturally while driving.
+Route Appearance
+Current routes do not exist.
+Create them.
+Thin blue line.
+Approximately 2–3px.
+Rounded ends.
+Soft glow.
+Animate the drawing of the route before the car starts moving.
+After arrival
+Fade route away.
+High Demand
+Do not show a legend.
+Instead
+Every 8–12 seconds
+Random important areas emit a very subtle blue pulse.
+Examples
+RK Beach
+MVP Colony
+Rushikonda
+Siripuram
+Gajuwaka
+The pulse should be extremely soft.
+Almost invisible.
+Timing
+Do not start everything immediately.
+Sequence
+Page loads
+↓
+Map fades in
+↓
+Cars appear
+↓
+One booking starts
+↓
+Second booking
+↓
+Third booking
+↓
+Continuous loop
+Everything should feel cinematic.
+Performance
+Maximum
+6 cars
+3 active routes
+4 demand pulses
+Nothing more.
+Maintain 60 FPS.
+Responsiveness
+Cars must remain attached to roads.
+Routes must remain attached to roads.
+Nothing should break on different screen sizes.
+The animation should scale correctly.
+Important Design Rule
+This is NOT a map application.
+The map is supporting the landing page.
+The user's attention should remain
+Hero heading
+Booking bar
+Subtle city activity
+The animation should enhance the experience without distracting from booking a car.
+Final Goal
+When someone opens this website they should immediately think
+"Wow... this company has self-drive cars actively operating all across Visakhapatnam."
+without needing to read any explanation.

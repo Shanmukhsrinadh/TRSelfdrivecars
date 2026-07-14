@@ -1,0 +1,456 @@
+You are not building a new website.
+
+You are redesigning and elevating my EXISTING React + Vite project into a premium digital product.
+
+IMPORTANT:
+
+• DO NOT create a new project.
+• DO NOT replace my architecture.
+• DO NOT rewrite working components.
+• DO NOT remove existing functionality.
+• DO NOT redesign just for the sake of redesigning.
+• Treat my existing project as a production codebase.
+
+Your goal is to evolve it into a website that feels like it was designed by a world-class product design agency.
+
+==================================================
+UNDERSTAND THE BUSINESS FIRST
+==================================================
+
+This is a Self Drive Car Rental company.
+
+Do NOT study competitor designs.
+
+Instead understand the business.
+
+The customer journey is:
+
+"I need a car."
+
+↓
+
+Can I trust this company?
+
+↓
+
+Is my preferred vehicle available?
+
+↓
+
+How much will it cost?
+
+↓
+
+Can I book it quickly?
+
+↓
+
+Done.
+
+Every design decision should reduce friction in that journey.
+
+==================================================
+DESIGN PHILOSOPHY
+==================================================
+
+Do NOT make another generic car rental website.
+
+Do NOT use outdated templates.
+
+Do NOT create another page full of identical cards.
+
+Instead create an experience.
+
+The website should feel like:
+
+Apple
+Airbnb
+Linear
+Stripe
+Turo
+
+Minimal.
+
+Confident.
+
+Elegant.
+
+Modern.
+
+Human.
+
+Premium.
+
+==================================================
+COLOR SYSTEM
+==================================================
+
+PRIMARY BACKGROUND
+
+Pure White
+
+#FFFFFF
+
+White must remain the dominant color across the website.
+
+The design should feel bright, fresh and spacious.
+
+Secondary backgrounds may use:
+
+#FAFAFA
+
+#F8FAFC
+
+#F5F7FB
+
+Only to separate sections.
+
+Never use dark backgrounds for entire sections unless absolutely necessary.
+
+==================================================
+ACCENT COLORS
+==================================================
+
+Do NOT invent random color palettes.
+
+Use colors only where they create hierarchy.
+
+Primary Brand
+
+Deep Royal Blue
+
+Accent
+
+Warm Orange
+
+Success
+
+WhatsApp Green
+
+Neutral
+
+Charcoal
+
+Colors should support content.
+
+Not compete with it.
+
+==================================================
+OVERALL FEEL
+==================================================
+
+I want visitors to think
+
+"This company looks trustworthy."
+
+"This feels effortless."
+
+"This looks expensive."
+
+NOT
+
+"This is another rental template."
+
+==================================================
+TYPOGRAPHY
+==================================================
+
+Strong hierarchy.
+
+Large headings.
+
+Comfortable spacing.
+
+Readable paragraphs.
+
+Avoid oversized blocks of text.
+
+==================================================
+WHAT SHOULD CHANGE
+==================================================
+
+Instead of redesigning components individually,
+
+redesign the experience.
+
+Ask yourself before modifying anything:
+
+Does this improve usability?
+
+Does this improve conversion?
+
+Does this improve trust?
+
+If not,
+
+leave it alone.
+
+==================================================
+HERO SECTION
+==================================================
+
+Current hero should become an experience.
+
+Instead of only introducing the company,
+
+help users begin their journey.
+
+The hero should immediately answer:
+
+Where?
+
+When?
+
+What vehicle?
+
+without overwhelming the user.
+
+Make it visually memorable.
+
+Do not copy any competitor.
+
+==================================================
+BOOKING EXPERIENCE
+==================================================
+
+Instead of a basic booking form,
+
+create a premium reservation experience.
+
+Users should feel like they are planning a trip,
+
+not filling out paperwork.
+
+Include:
+
+Vehicle
+
+Pickup
+
+Return
+
+Location
+
+Name
+
+Phone
+
+Booking Summary
+
+Estimated Price
+
+Check Availability
+
+Prepare the component for future backend integration.
+
+==================================================
+FLEET SECTION
+==================================================
+
+This section is the heart of the website.
+
+Every vehicle should feel unique.
+
+Avoid repetitive identical cards.
+
+Use labels like
+
+Most Booked
+
+Family Choice
+
+Best Value
+
+Premium
+
+Automatic
+
+Popular
+
+Show personality.
+
+==================================================
+VEHICLE DETAILS
+==================================================
+
+The existing slide-over drawer is excellent.
+
+Keep it.
+
+Improve polish only.
+
+Better spacing.
+
+Better gallery.
+
+Better CTA hierarchy.
+
+Keep users on the same page.
+
+==================================================
+SERVICES
+==================================================
+
+Don't describe services.
+
+Sell experiences.
+
+Instead of
+
+Airport Pickup
+
+Create
+
+Stress-free airport arrivals.
+
+Instead of
+
+Outstation Trip
+
+Create
+
+Weekend escapes.
+
+Instead of
+
+City Ride
+
+Create
+
+Explore Vizag your way.
+
+==================================================
+WHY CHOOSE US
+==================================================
+
+Avoid generic marketing.
+
+Don't write
+
+Reliable
+
+Affordable
+
+Professional
+
+Instead communicate proof.
+
+Vehicles Available
+
+Average Rating
+
+Response Time
+
+Years of Experience
+
+Successful Rentals
+
+==================================================
+SOCIAL PROOF
+==================================================
+
+Reviews should feel authentic.
+
+Highlight one outstanding review.
+
+Then show supporting reviews.
+
+Google rating should be clearly visible.
+
+==================================================
+COPYWRITING
+==================================================
+
+Write naturally.
+
+Avoid AI clichés.
+
+Avoid buzzwords.
+
+Avoid generic marketing language.
+
+Every sentence should help the customer make a booking.
+
+==================================================
+VISUAL LANGUAGE
+==================================================
+
+Large photography.
+
+Real vehicles.
+
+Real destinations.
+
+Real travel.
+
+Minimal icons.
+
+Avoid illustrations that feel like placeholders.
+
+==================================================
+ANIMATIONS
+==================================================
+
+Smooth.
+
+Subtle.
+
+Premium.
+
+No flashy effects.
+
+Every animation should communicate state or guide attention.
+
+==================================================
+RESPONSIVENESS
+==================================================
+
+Desktop should feel premium.
+
+Tablet should feel balanced.
+
+Mobile should feel effortless.
+
+==================================================
+DO NOT COPY
+==================================================
+
+Do NOT copy layouts.
+
+Do NOT copy colors.
+
+Do NOT copy typography.
+
+Do NOT copy sections.
+
+Do NOT copy content.
+
+Competitors should only be used to understand workflow.
+
+The final website should have its own identity.
+
+==================================================
+MOST IMPORTANT INSTRUCTION
+==================================================
+
+Before changing anything,
+
+analyze the existing project.
+
+Identify:
+
+• what is already excellent
+
+• what should be improved
+
+• what should remain untouched
+
+Then redesign only the parts that genuinely improve user experience.
+
+Preserve the engineering.
+
+Elevate the design.
+
+The goal is not to make the website different.
+
+The goal is to make it unforgettable.

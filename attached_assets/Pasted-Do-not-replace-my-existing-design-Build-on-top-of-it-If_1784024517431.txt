@@ -1,0 +1,157 @@
+Do not replace my existing design. Build on top of it. If you're unsure, preserve the current layout and only enhance it.
+You are a senior frontend engineer and award-winning UI/UX designer.
+Your task is NOT to redesign my website. Your task is to modify my existing Hero section only while keeping the rest of my website untouched.
+Tech Stack
+React
+Tailwind CSS
+MapLibre GL JS
+OpenStreetMap (OpenFreeMap vector tiles)
+Framer Motion (if needed)
+No backend
+No paid APIs
+Everything must work completely on the frontend.
+Design Philosophy
+The website is for TRSelf Drive Cars in Visakhapatnam.
+The design must be:
+Minimal
+Premium
+Apple-like
+Spacious
+Light themed
+Soft shadows
+Plenty of white space
+Subtle animations only
+Do NOT make it colorful.
+Primary color should remain soft blue.
+Hero Layout
+Keep the current layout but improve it.
+The hero should be split like this.
+20% left
+80% right
+The left contains
+logo
+hero heading
+short description
+The right contains
+a large OpenStreetMap rendering of Visakhapatnam.
+The map is NOT interactive.
+Disable
+zoom
+pan
+rotation
+scroll
+It is purely decorative.
+Map Style
+Use OpenStreetMap through MapLibre.
+Create a custom minimal style.
+Requirements
+white land
+very light grey buildings
+very faint road network
+blue sea
+remove unnecessary POIs
+remove unnecessary labels
+keep only important road labels if needed
+very subtle overall appearance
+The map should feel like a design element instead of a navigation map.
+Main Hero Feature
+The map should feel alive.
+Do NOT animate the map itself.
+Instead animate objects ON the map.
+Fleet Simulation
+The company has six cars.
+Since there is no backend, create a fake simulation.
+Always maintain
+3 booked cars
+3 available cars
+The user should never see these numbers.
+The animation simply creates this feeling.
+Available Cars
+Create three small blue vehicle markers.
+These markers move continuously.
+Requirements
+always follow real roads
+never move through buildings
+never move randomly
+follow actual road geometry
+different speeds
+smooth turns
+rotate according to road direction
+occasionally pause at intersections
+They should feel like normal city driving.
+Booked Cars
+Three cars should always appear booked.
+Each booked car
+starts from a pickup
+travels to destination
+follows an actual road
+shows a thin blue animated route
+reaches destination
+waits
+route fades
+new booking begins elsewhere
+Repeat forever.
+Route Pool
+Do NOT calculate live routes.
+Instead create approximately 12 predefined routes around Visakhapatnam.
+Example areas
+RK Beach
+Rushikonda
+MVP Colony
+Madhurawada
+Gajuwaka
+NAD Junction
+Airport
+Railway Station
+Siripuram
+Asilmetta
+The animation engine should randomly pick one of these predefined routes.
+This keeps the hero deterministic and lightweight.
+Animation Quality
+Everything should be slow.
+Elegant.
+Never flashy.
+No bouncing.
+No exaggerated easing.
+The page should feel alive without distracting from the booking form.
+Booking Bar
+Keep my existing booking bar.
+Improve spacing only.
+Do NOT redesign it.
+Do NOT change the UX.
+Navbar
+Keep existing navbar.
+Improve spacing.
+Improve typography.
+Do not redesign.
+Hero Text
+Keep my existing heading.
+Keep my existing content.
+Improve typography only.
+Performance
+Maximum six moving cars.
+Maximum three animated routes.
+No heavy animation libraries.
+Maintain smooth performance.
+Code Quality
+Do NOT create multiple components.
+Do NOT create multiple CSS files.
+Do NOT create utility files.
+Keep everything inside my existing Hero component as much as possible.
+I prefer one clean Hero component rather than many small files.
+Responsiveness
+Must work on
+Desktop
+Tablet
+Mobile
+The map should resize correctly.
+Cars must remain on roads.
+Routes must remain on roads.
+Nothing should overlap.
+Most Important Requirement
+The website must NOT feel like a map application.
+The map is simply a premium background that communicates
+"This company has self drive cars available all across Visakhapatnam."
+The animations should reinforce that message.
+Avoid flashy effects.
+Prioritize elegance.

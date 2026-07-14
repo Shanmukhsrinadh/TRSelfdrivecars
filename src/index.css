@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0F172A;
+  --color-navy-mid: #1E293B;
+  --color-royal: #1E3A8A;
+  --color-royal-light: #2554D6;
+  --color-royal-hover: #16296B;
+  --color-orange: #F97316;
+  --color-orange-hover: #EA6A0A;
+  --color-whatsapp: #25D366;
+  --color-whatsapp-hover: #1EBA58;
+  --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-display: 'Poppins', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #fff;
+    color: #0F172A;
+    overflow-x: hidden;
+  }
+  #root { width: 100%; min-height: 100vh; }
+
+  a, button {
+    -webkit-tap-highlight-color: transparent;
+  }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid #1E3A8A;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@keyframes float-car {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-float-car { animation: float-car 5s ease-in-out infinite; }
+.animate-marquee   { animation: marquee 45s linear infinite; }
+.animate-slide-in  { animation: slide-in-right 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+.animate-fade-in   { animation: fade-in 0.3s ease forwards; }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+    @keyframes scrollUp {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(0, -50%, 0);
+      }
+    }
+
+    .animate-slow {
+      animation: scrollUp 28s linear infinite;
+    }
+
+    .animate-medium {
+      animation: scrollUp 22s linear infinite;
+    }
+
+    .animate-fast {
+      animation: scrollUp 18s linear infinite;
+    }
+
+    .ma {
+      mask-image: sk-fadelinear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+    }
+
