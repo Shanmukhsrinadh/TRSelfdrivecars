@@ -2,18 +2,8 @@ import { useEffect, useRef } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import {
-  CalendarDays,
-  CarFront,
-  ChevronDown,
-  MapPin,
-  ArrowRight,
-  ShieldCheck,
-  Headset,
-  Car,
-  User,
-  Phone,
-} from "lucide-react";
+import { ChevronDown, ShieldCheck, Headset, Car } from "lucide-react";
+import BookingWidget from "../components/BookingWidget";
 
 /* ======================================================================
    LIVE FLEET DATA & ROUTING UTILITIES
@@ -168,20 +158,6 @@ function buildCarMarkerElement(status) {
    MAIN COMPONENT
    ====================================================================== */
 
-function BookingField({ icon: Icon, label, value }) {
-  return (
-    <button className="booking-field" type="button">
-      <span className="field-icon">
-        <Icon size={18} strokeWidth={1.8} />
-      </span>
-      <span className="field-copy">
-        <span className="field-label">{label}</span>
-        <span className="field-value">{value}</span>
-      </span>
-      <ChevronDown size={15} />
-    </button>
-  );
-}
 
 export default function HeroSection() {
   const mapContainer = useRef(null);
@@ -853,17 +829,7 @@ export default function HeroSection() {
         </main>
 
         <div className="booking-shell">
-          <div className="booking-bar">
-            <BookingField icon={CarFront} label="Choose Vehicle" value="Maruti Suzuki Fronx" />
-            <BookingField icon={CalendarDays} label="Pick-up Date" value="24 May 2026" />
-            <BookingField icon={MapPin} label="Pick-up Location" value="MVP Colony" />
-            <BookingField icon={User} label="Name" value="Enter your name" />
-            <BookingField icon={Phone} label="Phone Number" value="Enter phone number" />
-            <button className="find-car-button" type="button">
-              Check Availability
-              <ArrowRight size={17} />
-            </button>
-          </div>
+          <BookingWidget />
         </div>
 
         {/* Minimal Scroll Down Animation Indicator */}

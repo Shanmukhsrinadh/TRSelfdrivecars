@@ -29,7 +29,7 @@ export default function Navbar() {
   const isMobile = screenWidth <= 760
   const isSmallMobile = screenWidth <= 520
 
-  const phoneNumber = "917702102097"
+  const phoneNumber = "919550563283"
 
   const links = [
     { name: 'Our Fleet', href: '#vehicles' },

@@ -74,7 +74,7 @@ export default function Footer() {
 
               <li>
                 <button
-                  onClick={() => window.open('https://wa.me/917702102097', '_blank')}
+                  onClick={() => window.open('https://wa.me/919550563283', '_blank')}
                   className="flex items-center gap-2 mt-2 bg-[#25D366] px-3 py-1.5 rounded-md text-white text-xs"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />

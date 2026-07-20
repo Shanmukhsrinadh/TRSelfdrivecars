@@ -12,7 +12,7 @@ export default function WhatsAppButton() {
         </div>
       )}
       <button
-        onClick={() => window.open('https://wa.me/917702102097', '_blank')}
+        onClick={() => window.open('https://wa.me/919550563283', '_blank')}
         onMouseEnter={() => setShowTooltip(true)}
         onMouseLeave={() => setShowTooltip(false)}
         className="bg-[#25D366] text-white p-4 rounded-full shadow-[0_8px_30px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform duration-200 flex items-center justify-center"

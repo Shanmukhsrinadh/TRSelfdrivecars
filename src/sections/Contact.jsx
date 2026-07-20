@@ -57,7 +57,7 @@ export default function Contact() {
 
             <div className="flex flex-col sm:flex-row gap-3">
               <a
-                href="https://wa.me/917702102097?text=Hi%2C%20I%20want%20to%20book%20a%20vehicle"
+                href="https://wa.me/919550563283?text=Hi%2C%20I%20want%20to%20book%20a%20vehicle"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2.5 bg-green-500 hover:bg-green-400 text-white text-sm font-semibold px-6 py-3.5 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-green-500/40"
@@ -66,11 +66,11 @@ export default function Contact() {
                 Chat on WhatsApp
               </a>
               <a
-                href="tel:+917702102097"
+                href="tel:+919550563283"
                 className="flex items-center justify-center gap-2.5 border border-white/25 hover:border-white/60 text-white text-sm font-semibold px-6 py-3.5 rounded-full transition-all duration-300"
               >
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                Call +91 770-210-2097
+                Call +91 955-056-3283
               </a>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <p className="text-white/40 text-[10px] font-semibold uppercase tracking-wider mb-0.5">Phone</p>
-                    <a href="tel:+917702102097" className="text-white text-sm font-medium hover:text-blue-400 transition-colors">
+                    <a href="tel:+919550563283" className="text-white text-sm font-medium hover:text-white/80 transition-colors">
                       +91 770-210-2097
                     </a>
                   </div>

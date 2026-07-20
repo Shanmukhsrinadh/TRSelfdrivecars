@@ -53,7 +53,7 @@ export default function Services() {
   const [activeMobileIndex, setActiveMobileIndex] = useState(0);
 
   const handleBook = (name) => {
-    window.open(`https://wa.me/917702102097?text=${encodeURIComponent(`Hi, I want to book a vehicle for ${name}.`)}`, '_blank');
+    window.open(`https://wa.me/919550563283?text=${encodeURIComponent(`Hi, I want to book a vehicle for ${name}.`)}`, '_blank');
   };
 
   const handleButtonMouseEnter = (e) => {

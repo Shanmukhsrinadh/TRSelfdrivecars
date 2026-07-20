@@ -128,10 +128,10 @@ export default function VehicleDetailPage({ vehicle, onClose }) {
   const related = vehicles.filter(v => v.category === vehicle.category && v.id !== vehicle.id).slice(0, 3);
   const color    = categoryColors[vehicle.category] || { bg: '#F8FAFC', text: '#0F172A', dot: '#64748B' };
 
-  const handleCall     = () => window.open('tel:+917702102097');
+  const handleCall     = () => window.open('tel:+919550563283');
   const handleWhatsApp = () => {
     const text = `Hi, I'd like to book the ${vehicle.name} (${vehicle.category}) — ₹${vehicle.price}/day. Please confirm availability.`;
-    window.open(`https://wa.me/917702102097?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(`https://wa.me/919550563283?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
