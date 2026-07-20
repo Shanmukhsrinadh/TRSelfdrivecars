@@ -3,9 +3,9 @@ import { Users, Fuel, Settings, ImageOff } from 'lucide-react';
 
 const categoryColors = {
   Hatchback: { bg: '#EFF6FF', text: '#1D4ED8', dot: '#3B82F6' },
-  Sedan:     { bg: '#F0FDF4', text: '#15803D', dot: '#22C55E' },
-  SUV:       { bg: '#FFF7ED', text: '#C2410C', dot: '#F97316' },
-  MUV:       { bg: '#FDF4FF', text: '#7E22CE', dot: '#A855F7' },
+  Sedan:     { bg: '#E0EAFF', text: '#1E3A8A', dot: '#1E3A8A' },
+  SUV:       { bg: '#F0F4FF', text: '#0F172A', dot: '#0F172A' },
+  MUV:       { bg: '#DBEAFE', text: '#1E40AF', dot: '#2563EB' },
 };
 
 export default function VehicleCard({ vehicle, onClick }) {

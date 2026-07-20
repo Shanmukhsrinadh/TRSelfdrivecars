@@ -3,7 +3,7 @@ const REVIEWS = [
     name: 'Priya Sharma',
     city: 'Mumbai',
     avatar: 'PS',
-    avatarColor: 'from-pink-400 to-rose-500',
+    avatarColor: 'from-[#1E3A8A] to-[#0F172A]',
     car: 'Hyundai Creta SX 2022',
     rating: 5,
     text: "Mohan Cars completely changed my mind about buying used cars. The paperwork took less than a day, and they delivered it to my doorstep. Zero stress.",
@@ -12,7 +12,7 @@ const REVIEWS = [
     name: 'Arjun Nair',
     city: 'Bangalore',
     avatar: 'AN',
-    avatarColor: 'from-sky-400 to-indigo-500',
+    avatarColor: 'from-[#1D4ED8] to-[#1E3A8A]',
     car: 'Toyota Fortuner 2021',
     rating: 5,
     text: "Showed me the full inspection report before I even asked. No pressure, no upselling.",
@@ -21,7 +21,7 @@ const REVIEWS = [
     name: 'Sneha Kulkarni',
     city: 'Pune',
     avatar: 'SK',
-    avatarColor: 'from-violet-400 to-purple-500',
+    avatarColor: 'from-[#0F172A] to-[#1E3A8A]',
     car: 'Maruti Baleno 2022',
     rating: 5,
     text: "Got a great EMI deal and drove home the same week!",
@@ -30,7 +30,7 @@ const REVIEWS = [
     name: 'Rahul Desai',
     city: 'Delhi',
     avatar: 'RD',
-    avatarColor: 'from-emerald-400 to-teal-500',
+    avatarColor: 'from-[#1E40AF] to-[#0F172A]',
     car: 'BMW 3 Series 2020',
     rating: 5,
     text: "Pricing was fair and the process was completely hassle-free.",
@@ -39,7 +39,7 @@ const REVIEWS = [
     name: 'Meera Iyer',
     city: 'Chennai',
     avatar: 'MI',
-    avatarColor: 'from-amber-400 to-orange-500',
+    avatarColor: 'from-[#2563EB] to-[#1D4ED8]',
     car: 'Tata Nexon EV 2023',
     rating: 5,
     text: "Felt like advice from a friend, not a salesperson.",
@@ -48,7 +48,7 @@ const REVIEWS = [
     name: 'Vikram Joshi',
     city: 'Hyderabad',
     avatar: 'VJ',
-    avatarColor: 'from-cyan-400 to-sky-500',
+    avatarColor: 'from-[#1E3A8A] to-[#1D4ED8]',
     car: 'Kia Seltos 2022',
     rating: 5,
     text: "Entire journey was digital and smooth.",
@@ -59,7 +59,7 @@ function Stars({ count = 5 }) {
   return (
     <div className="flex gap-1">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="w-3 h-3 bg-yellow-400 rounded-full" />
+        <div key={i} className="w-3 h-3 bg-[#1E3A8A] rounded-full" />
       ))}
     </div>
   );

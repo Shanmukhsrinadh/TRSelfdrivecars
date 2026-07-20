@@ -152,7 +152,7 @@ function buildCarMarkerElement(status) {
   el.className = `map-car map-car--${status}`;
   el.innerHTML = `
     <svg viewBox="0 0 24 40" width="100%" height="100%" shape-rendering="geometricPrecision">
-      <ellipse cx="12" cy="34" rx="7" ry="2.4" fill="#0f172a" opacity="0.18"/>
+      <ellipse cx="12" cy="34" rx="7" ry="2.4" fill="#000000" opacity="0.18"/>
       <rect x="4" y="5" width="16" height="29" rx="7.5" fill="currentColor"/>
       <rect x="6.5" y="10" width="11" height="8.5" rx="2.2" fill="#ffffff" opacity="0.95"/>
       <path d="M8 11.5 L12 11.5" stroke="#e2e8f0" stroke-width="1" opacity="0.9" stroke-linecap="round"/>
@@ -194,9 +194,6 @@ export default function HeroSection() {
     let vehicleStates = [];
     let isCleanedUp = false;
 
-    // Guard: some environments (headless browsers, old GPUs) can't create a
-    // WebGL context. If that happens, bail out silently — the rest of the page
-    // must still render and scroll normally.
     let map;
     try {
       map = new maplibregl.Map({
@@ -388,11 +385,11 @@ export default function HeroSection() {
         }
 
         .hero {
-          --ink: #0f172a;
+          --ink: #000000;
           --muted: #64748b;
-          --accent: #0f172a;       
+          --accent: #000000;       
           --accent-soft: #f1f5f9;  
-          --paper: #ffffff; /* Changed to pure white to align all surrounding components */
+          --paper: #ffffff;
 
           position: relative;
           min-height: 100vh;
@@ -422,7 +419,7 @@ export default function HeroSection() {
           transition: transform 0.08s linear;
         }
 
-        .map-car--booked { color: #0f172a; }     
+        .map-car--booked { color: #000000; }     
         .map-car--available { color: #94a3b8; }  
 
         /* High-Definition Seamless Bottom Fade with pure white base */
@@ -456,7 +453,6 @@ export default function HeroSection() {
           padding-bottom: 120px;
           pointer-events: none;
 
-          /* Side gradient adjusted to pure white to eliminate conflict at bottom-left corner */
           background: linear-gradient(
             to right,
             rgba(255, 255, 255, 0.98) 0%,
@@ -555,9 +551,9 @@ export default function HeroSection() {
           align-items: center;
           padding: 6px 8px;
           background: rgba(255, 255, 255, 0.98);
-          border: 1px solid rgba(15, 23, 42, 0.08);
+          border: 1px solid rgba(0, 0, 0, 0.08);
           border-radius: 14px;
-          box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
+          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
           backdrop-filter: blur(20px);
         }
 
@@ -572,7 +568,7 @@ export default function HeroSection() {
           text-align: left;
           background: transparent;
           border: 0;
-          border-right: 1px solid rgba(15, 23, 42, 0.08);
+          border-right: 1px solid rgba(0, 0, 0, 0.08);
           cursor: pointer;
         }
 
@@ -624,9 +620,9 @@ export default function HeroSection() {
         }
 
         .find-car-button:hover {
-          background-color: #1e293b; 
+          background-color: #262626; 
           transform: translateY(-1.5px);
-          box-shadow: 0 8px 16px rgba(15, 23, 42, 0.15);
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
 
         /* Responsive Scroll down animation indicator styles */
@@ -778,7 +774,7 @@ export default function HeroSection() {
           .booking-field {
             padding: 0 10px;
             border-right: 0;
-            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
           }
 
           .booking-field:last-of-type {

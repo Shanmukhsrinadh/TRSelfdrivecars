@@ -63,12 +63,12 @@ export default function Footer() {
 
             <ul className="space-y-2 text-xs text-[#64748B]">
               <li className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-[#F97316]" />
+                <Phone className="w-3.5 h-3.5 text-[#1E3A8A]" />
                 +91 770-210-2097
               </li>
 
               <li className="flex items-start gap-2">
-                <MapPin className="w-3.5 h-3.5 text-[#F97316] mt-0.5" />
+                <MapPin className="w-3.5 h-3.5 text-[#1E3A8A] mt-0.5" />
                 Visakhapatnam, Andhra Pradesh
               </li>
 
@@ -103,7 +103,7 @@ export default function Footer() {
               href="https://shanmukhportfolio.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#F97316] font-medium hover:text-[#FB923C] transition-colors duration-300"
+              className="text-[#1E3A8A] font-medium hover:text-[#2554D6] transition-colors duration-300"
             >
               SHANMUKH SRINADH
             </a>

@@ -104,7 +104,7 @@ export default function BookingWidget() {
       <div className="p-2.5 sm:pl-0 flex items-stretch">
         <button
           onClick={handleFindCar}
-          className="w-full sm:w-auto bg-[#3B4A63] hover:bg-[#2E3A4F] text-white font-semibold px-7 py-4 sm:rounded-2xl rounded-xl flex items-center justify-center gap-2 transition-colors text-sm whitespace-nowrap"
+          className="w-full sm:w-auto bg-[#0F172A] hover:bg-[#1E293B] text-white font-semibold px-7 py-4 sm:rounded-2xl rounded-xl flex items-center justify-center gap-2 transition-colors text-sm whitespace-nowrap"
         >
           Find My Car
           <ArrowRight className="w-4 h-4" />
