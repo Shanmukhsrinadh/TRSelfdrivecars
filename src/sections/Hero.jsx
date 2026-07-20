@@ -1,9 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import { ChevronDown, ShieldCheck, Headset, Car } from "lucide-react";
-import BookingWidget from "../components/BookingWidget";
+import { ChevronDown, ShieldCheck, Headset, Car, CarFront, CalendarDays, MapPin, ArrowRight, User, Phone } from "lucide-react";
+import vehicles from "../data/vehicles.json";
+
+const WA_NUMBER = "919550563283";
+const LOCATIONS = ["Vizag Airport","Simhachalam","Railway Station","Madhurwada","Gajuwaka","NAD X Roads","Others"];
+const TODAY = new Date().toISOString().split("T")[0];
 
 /* ======================================================================
    LIVE FLEET DATA & ROUTING UTILITIES
@@ -158,10 +162,39 @@ function buildCarMarkerElement(status) {
    MAIN COMPONENT
    ====================================================================== */
 
-
 export default function HeroSection() {
   const mapContainer = useRef(null);
   const mapRef = useRef(null);
+
+  /* booking state */
+  const [vehicle,  setVehicle]  = useState("");
+  const [date,     setDate]     = useState("");
+  const [pickup,   setPickup]   = useState("");
+  const [name,     setName]     = useState("");
+  const [phone,    setPhone]    = useState("");
+  const [bookErr,  setBookErr]  = useState("");
+
+  const handleName  = (e) => setName(e.target.value.replace(/[^a-zA-Z\s]/g, ""));
+  const handlePhone = (e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10));
+
+  const handleBook = () => {
+    if (!vehicle)        { setBookErr("Please choose a vehicle.");               return; }
+    if (!date)           { setBookErr("Please pick a date.");                    return; }
+    if (!pickup)         { setBookErr("Please select a pick-up location.");      return; }
+    if (!name.trim())    { setBookErr("Please enter your name.");                return; }
+    if (phone.length < 10) { setBookErr("Please enter a valid 10-digit number."); return; }
+    setBookErr("");
+    const msg = [
+      "Hi, I'd like to check availability for a self-drive car rental.",
+      "",
+      `🚗 Vehicle: ${vehicle}`,
+      `📅 Pick-up Date: ${date}`,
+      `📍 Pick-up Location: ${pickup}`,
+      `👤 Name: ${name.trim()}`,
+      `📞 Phone: ${phone}`,
+    ].join("\n");
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+  };
 
   useEffect(() => {
     if (!mapContainer.current || mapRef.current) return;
@@ -576,6 +609,36 @@ export default function HeroSection() {
           text-overflow: ellipsis;
         }
 
+        /* make real inputs/selects look identical to the original field-value */
+        .booking-field input,
+        .booking-field select {
+          all: unset;
+          display: block;
+          width: 100%;
+          font-size: 11.5px;
+          color: var(--muted);
+          font-family: inherit;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          cursor: pointer;
+          box-sizing: border-box;
+        }
+        .booking-field input::placeholder { color: var(--muted); }
+        .booking-field input[type="date"]::-webkit-calendar-picker-indicator {
+          opacity: 0.45; cursor: pointer;
+        }
+        .booking-error {
+          margin-top: 6px;
+          padding: 5px 12px;
+          background: #FEF2F2;
+          border: 1px solid #FECACA;
+          border-radius: 8px;
+          font-size: 11px;
+          color: #DC2626;
+          font-weight: 500;
+        }
+
         .find-car-button {
           height: 48px;
           margin-left: 8px;
@@ -829,7 +892,66 @@ export default function HeroSection() {
         </main>
 
         <div className="booking-shell">
-          <BookingWidget />
+          <div className="booking-bar">
+
+            {/* Vehicle */}
+            <div className="booking-field">
+              <span className="field-icon"><CarFront size={18} strokeWidth={1.8} /></span>
+              <span className="field-copy">
+                <span className="field-label">Choose Vehicle</span>
+                <select value={vehicle} onChange={(e) => setVehicle(e.target.value)}>
+                  <option value="" disabled>Select a vehicle</option>
+                  {vehicles.map((v) => <option key={v.id} value={v.name}>{v.name}</option>)}
+                </select>
+              </span>
+            </div>
+
+            {/* Date */}
+            <div className="booking-field">
+              <span className="field-icon"><CalendarDays size={18} strokeWidth={1.8} /></span>
+              <span className="field-copy">
+                <span className="field-label">Pick-up Date</span>
+                <input type="date" value={date} min={TODAY} onChange={(e) => setDate(e.target.value)} />
+              </span>
+            </div>
+
+            {/* Location */}
+            <div className="booking-field">
+              <span className="field-icon"><MapPin size={18} strokeWidth={1.8} /></span>
+              <span className="field-copy">
+                <span className="field-label">Pick-up Location</span>
+                <select value={pickup} onChange={(e) => setPickup(e.target.value)}>
+                  <option value="" disabled>Choose location</option>
+                  {LOCATIONS.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
+                </select>
+              </span>
+            </div>
+
+            {/* Name */}
+            <div className="booking-field">
+              <span className="field-icon"><User size={18} strokeWidth={1.8} /></span>
+              <span className="field-copy">
+                <span className="field-label">Your Name</span>
+                <input type="text" value={name} onChange={handleName} placeholder="Enter your name" autoComplete="name" />
+              </span>
+            </div>
+
+            {/* Phone */}
+            <div className="booking-field">
+              <span className="field-icon"><Phone size={18} strokeWidth={1.8} /></span>
+              <span className="field-copy">
+                <span className="field-label">Phone Number</span>
+                <input type="tel" value={phone} onChange={handlePhone} placeholder="10-digit number" inputMode="numeric" />
+              </span>
+            </div>
+
+            <button className="find-car-button" type="button" onClick={handleBook}>
+              Check Availability
+              <ArrowRight size={17} />
+            </button>
+          </div>
+
+          {bookErr && <div className="booking-error">{bookErr}</div>}
         </div>
 
         {/* Minimal Scroll Down Animation Indicator */}
