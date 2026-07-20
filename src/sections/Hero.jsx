@@ -194,18 +194,26 @@ export default function HeroSection() {
     let vehicleStates = [];
     let isCleanedUp = false;
 
-    const map = new maplibregl.Map({
-      container: mapContainer.current,
-      style: "https://tiles.openfreemap.org/styles/positron",
-      center: [83.312, 17.721], 
-      zoom: 13.9,
-      attributionControl: false,
-      interactive: false,
-      fadeDuration: 0,
-      antialias: true,
-      preserveDrawingBuffer: true,
-      pixelRatio: window.devicePixelRatio || 2,
-    });
+    // Guard: some environments (headless browsers, old GPUs) can't create a
+    // WebGL context. If that happens, bail out silently — the rest of the page
+    // must still render and scroll normally.
+    let map;
+    try {
+      map = new maplibregl.Map({
+        container: mapContainer.current,
+        style: "https://tiles.openfreemap.org/styles/positron",
+        center: [83.312, 17.721],
+        zoom: 13.9,
+        attributionControl: false,
+        interactive: false,
+        fadeDuration: 0,
+        antialias: true,
+        preserveDrawingBuffer: true,
+        pixelRatio: window.devicePixelRatio || 2,
+      });
+    } catch {
+      return;
+    }
 
     mapRef.current = map;
 

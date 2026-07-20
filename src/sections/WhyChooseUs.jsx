@@ -86,7 +86,7 @@ export default function WhyChooseUs() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-12 lg:py-20 bg-[#fefefe] overflow-hidden min-h-screen flex flex-col justify-center">
+    <section ref={sectionRef} id="requirements" className="py-12 lg:py-20 bg-[#fefefe] overflow-hidden min-h-screen flex flex-col justify-center">
 
       {/* ========================================================= */}
       {/*   LARGE SCREEN DESIGN - Active ONLY above 1214px           */}

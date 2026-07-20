@@ -32,8 +32,8 @@ export default function Navbar() {
   const phoneNumber = "917702102097"
 
   const links = [
-    { name: 'Our Fleet', href: '#fleet' },
-    { name: 'How It Works', href: '#how-it-works' },
+    { name: 'Our Fleet', href: '#vehicles' },
+    { name: 'How It Works', href: '#services' },
     { name: 'Requirements', href: '#requirements' },
     { name: 'About Us', href: '#about-us' },
   ]
