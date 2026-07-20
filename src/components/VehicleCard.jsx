@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Users, Fuel, Settings, ImageOff } from 'lucide-react';
 
 const categoryColors = {
-  Hatchback: { bg: '#EFF6FF', text: '#1D4ED8', dot: '#3B82F6' },
-  Sedan:     { bg: '#E0EAFF', text: '#1E3A8A', dot: '#1E3A8A' },
-  SUV:       { bg: '#F0F4FF', text: '#0F172A', dot: '#0F172A' },
-  MUV:       { bg: '#DBEAFE', text: '#1E40AF', dot: '#2563EB' },
+  Hatchback: { bg: '#F8FAFC', text: '#374151', dot: '#374151' },
+  Sedan:     { bg: '#F1F5F9', text: '#0F172A', dot: '#0F172A' },
+  SUV:       { bg: '#F8FAFC', text: '#374151', dot: '#1E293B' },
+  MUV:       { bg: '#F1F5F9', text: '#0F172A', dot: '#0F172A' },
 };
 
 export default function VehicleCard({ vehicle, onClick }) {
@@ -28,7 +28,7 @@ export default function VehicleCard({ vehicle, onClick }) {
         </span>
 
         {vehicle.badge && (
-          <span className="absolute top-3 right-3 z-10 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#1E3A8A] text-white shadow-sm">
+          <span className="absolute top-3 right-3 z-10 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#0F172A] text-white shadow-sm">
             {vehicle.badge}
           </span>
         )}

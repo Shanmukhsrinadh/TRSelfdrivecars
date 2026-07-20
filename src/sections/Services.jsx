@@ -118,7 +118,7 @@ export default function Services() {
 
         {/* Section Header */}
         <div className="mb-6 shrink-0">
-          <p className="text-[#1E3A8A] font-bold text-xs uppercase tracking-widest mb-1">Our Services</p>
+          <p className="text-[#94A3B8] font-bold text-xs uppercase tracking-widest mb-1">Our Services</p>
           <h2 className="text-2xl font-bold text-[#0F172A] tracking-tight mb-1">
             Comprehensive Mobility Services
           </h2>
@@ -148,7 +148,7 @@ export default function Services() {
               >
                 {/* Header Row */}
                 <div className="flex items-center gap-3">
-                  <IconComponent className={`w-4 h-4 shrink-0 ${isOpen ? 'text-[#1E3A8A]' : 'text-[#64748B]'}`} />
+                  <IconComponent className={`w-4 h-4 shrink-0 ${isOpen ? 'text-[#0F172A]' : 'text-[#64748B]'}`} />
                   <span className="text-xs font-semibold text-[#0F172A] tracking-tight">{s.title}</span>
                 </div>
 

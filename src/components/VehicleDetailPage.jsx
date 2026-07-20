@@ -3,10 +3,10 @@ import { X, Phone, MessageCircle, Users, Fuel, Settings, Gauge, Shield, Star, Ch
 import vehicles from '../data/vehicles.json';
 
 const categoryColors = {
-  Hatchback: { bg: '#EFF6FF', text: '#1D4ED8', dot: '#3B82F6' },
-  Sedan:     { bg: '#E0EAFF', text: '#1E3A8A', dot: '#1E3A8A' },
-  SUV:       { bg: '#F0F4FF', text: '#0F172A', dot: '#0F172A' },
-  MUV:       { bg: '#DBEAFE', text: '#1E40AF', dot: '#2563EB' },
+  Hatchback: { bg: '#F8FAFC', text: '#374151', dot: '#374151' },
+  Sedan:     { bg: '#F1F5F9', text: '#0F172A', dot: '#0F172A' },
+  SUV:       { bg: '#F8FAFC', text: '#374151', dot: '#1E293B' },
+  MUV:       { bg: '#F1F5F9', text: '#0F172A', dot: '#0F172A' },
 };
 
 /* ─── Image Gallery ─── */
@@ -157,7 +157,7 @@ export default function VehicleDetailPage({ vehicle, onClose }) {
               <span className="text-[#D1D5DB]">·</span>
               <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3 h-3 fill-[#1E3A8A] text-[#1E3A8A]" />
+                  <Star key={i} className="w-3 h-3 fill-[#374151] text-[#374151]" />
                 ))}
               </div>
             </div>
@@ -238,7 +238,7 @@ export default function VehicleDetailPage({ vehicle, onClose }) {
                   key={i}
                   className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-[#F8FAFC] text-[#374151] border border-gray-100"
                 >
-                  <CheckCircle className="w-3 h-3 text-[#1E3A8A]" />
+                  <CheckCircle className="w-3 h-3 text-[#374151]" />
                   {f}
                 </span>
               ))}
@@ -251,8 +251,8 @@ export default function VehicleDetailPage({ vehicle, onClose }) {
           <div className="bg-[#F8FAFC] rounded-2xl p-4">
             <h3 className="text-sm font-bold text-[#0F172A] mb-2">Quick Contact</h3>
             <div className="flex flex-col gap-2">
-              <button onClick={handleCall} className="flex items-center gap-3 text-sm hover:text-[#1E3A8A] transition-colors">
-                <Phone className="w-4 h-4 text-[#1E3A8A]" />
+              <button onClick={handleCall} className="flex items-center gap-3 text-sm hover:text-[#374151] transition-colors">
+                <Phone className="w-4 h-4 text-[#374151]" />
                 <span className="font-semibold text-[#0F172A]">+91 770-210-2097</span>
               </button>
               <button onClick={handleWhatsApp} className="flex items-center gap-3 text-sm">
@@ -309,7 +309,7 @@ export default function VehicleDetailPage({ vehicle, onClose }) {
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={handleCall}
-                className="flex items-center justify-center gap-2 bg-[#1E3A8A] hover:bg-[#16296B] text-white font-bold text-sm py-2.5 rounded-xl transition-colors"
+                className="flex items-center justify-center gap-2 bg-[#0F172A] hover:bg-[#1E293B] text-white font-bold text-sm py-2.5 rounded-xl transition-colors"
               >
                 <Phone className="w-4 h-4" />
                 Call Now
