@@ -34,8 +34,8 @@ export default function Navbar() {
   const links = [
     { name: 'Our Fleet', href: '#vehicles' },
     { name: 'How It Works', href: '#services' },
-    { name: 'Requirements', href: '#requirements' },
     { name: 'About Us', href: '#about-us' },
+    { name: 'Requirements', href: '#requirements' },
   ]
 
   const morphTransition = 'all 0.65s cubic-bezier(0.25, 1, 0.5, 1)'

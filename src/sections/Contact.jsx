@@ -3,8 +3,8 @@ import { Phone, MessageCircle, MapPin, Mail, ExternalLink } from "lucide-react";
 export default function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden">
-      {/* anchor so the "About Us" nav link scrolls here too */}
-      <span id="about-us" className="absolute -top-20" aria-hidden="true" />
+      {/* anchor so the "Requirements" nav link scrolls here */}
+      <span id="requirements" className="absolute -top-20" aria-hidden="true" />
 
       {/* Map background — full section */}
       <div className="absolute inset-0 z-0">

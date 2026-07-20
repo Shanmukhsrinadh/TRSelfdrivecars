@@ -35,11 +35,11 @@ function App() {
         <Hero onBookNow={() => document.getElementById('vehicles')?.scrollIntoView({ behavior: 'smooth' })} />
         <WhyChooseUs />
         <FeaturedVehicles onSelectVehicle={setSelectedVehicle} />
-        <Services />
         <VehicleCategories onSelectVehicle={setSelectedVehicle} />
+        <Services />
         <Testimonials />
-        <Gallery />
         <Contact />
+        <Gallery />
       </main>
       <Footer />
       <WhatsAppButton />
