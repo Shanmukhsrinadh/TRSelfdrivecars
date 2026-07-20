@@ -30,14 +30,12 @@ export default function Navbar() {
   const isSmallMobile = screenWidth <= 520
 
   const phoneNumber = "917702102097"
-  const displayNumber = "770-210-2097"
 
   const links = [
-    { name: 'Our Cars', href: '#vehicles' },
-    { name: 'How It Works', href: '#services' },
-    { name: 'Locations', href: '#gallery' },
-    { name: 'Offers', href: '#why-choose-us' },
-    { name: 'About Us', href: '#contact' },
+    { name: 'Our Fleet', href: '#fleet' },
+    { name: 'How It Works', href: '#how-it-works' },
+    { name: 'Requirements', href: '#requirements' },
+    { name: 'About Us', href: '#about-us' },
   ]
 
   const morphTransition = 'all 0.65s cubic-bezier(0.25, 1, 0.5, 1)'
@@ -61,14 +59,19 @@ export default function Navbar() {
       ? (isSmallMobile ? '0 16px' : '0 clamp(24px, 4.5vw, 54px)') 
       : (isMobile ? '0 10px' : '0 14px'),
     borderRadius: atHero ? 0 : 999,
-    background: atHero ? 'transparent' : 'rgba(255,255,255,0.95)',
-    borderBottom: atHero ? '1px solid transparent' : '1px solid rgba(0,0,0,0.06)',
-    borderLeft: atHero ? 'none' : '1px solid rgba(0,0,0,0.06)',
-    borderRight: atHero ? 'none' : '1px solid rgba(0,0,0,0.06)',
-    borderTop: atHero ? 'none' : '1px solid rgba(0,0,0,0.06)',
-    boxShadow: atHero ? 'none' : '0 8px 32px rgba(0,0,0,0.05)',
-    backdropFilter: atHero ? 'none' : 'blur(24px) saturate(160%)',
-    WebkitBackdropFilter: atHero ? 'none' : 'blur(24px) saturate(160%)',
+
+    // The "Chameleon Lens" effect: Lower opacity white + high saturation bleed
+    background: atHero ? 'transparent' : 'rgba(255, 255, 255, 0.78)',
+    borderBottom: atHero ? '1px solid transparent' : '1px solid rgba(0, 0, 0, 0.05)',
+    borderLeft: atHero ? 'none' : '1px solid rgba(0, 0, 0, 0.05)',
+    borderRight: atHero ? 'none' : '1px solid rgba(0, 0, 0, 0.05)',
+    borderTop: atHero ? 'none' : '1px solid rgba(0, 0, 0, 0.05)',
+    boxShadow: atHero ? 'none' : '0 8px 32px rgba(15, 23, 42, 0.04)',
+
+    // High saturation brings out the underlying section colors subtly through the glass
+    backdropFilter: atHero ? 'none' : 'blur(20px) saturate(190%)',
+    WebkitBackdropFilter: atHero ? 'none' : 'blur(20px) saturate(190%)',
+
     transition: morphTransition,
     willChange: 'width, max-width, height, padding, background, border-radius, top',
   }
@@ -134,7 +137,7 @@ export default function Navbar() {
               style={{
                 textDecoration: 'none',
                 background: 'transparent',
-                margin: atHero ? (isTablet ? '0 10px' : '0 16px') : '0 1px',
+                margin: atHero ? (isTablet ? '0 8px' : '0 12px') : '0 1px',
                 padding: atHero ? '6px 0' : (isTablet ? '8px 12px' : '8px 16px'), 
                 borderRadius: 999,
                 fontFamily: 'Inter, sans-serif', 
@@ -147,7 +150,7 @@ export default function Navbar() {
               }}
               onMouseEnter={e => {
                 e.target.style.background = 'rgba(0,0,0,0.04)';
-                e.target.style.color = '#1E3A8A';
+                e.target.style.color = '#1F2937';
               }}
               onMouseLeave={e => {
                 e.target.style.background = 'transparent';
@@ -160,40 +163,44 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* RIGHT AREA: Desktop Call Action / Mobile Trigger */}
+      {/* RIGHT AREA: Desktop WhatsApp (Perfect Asymmetry & Alignment Fix) */}
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', flexShrink: 0 }}>
         {!isMobile && (
           <a 
-            href={`tel:+${phoneNumber}`}
+            href={`https://wa.me/${phoneNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               textDecoration: 'none',
-              height: atHero ? 36 : 40,
-              padding: atHero ? (isTablet ? '0 14px' : '0 18px') : (isTablet ? '0 16px' : '0 20px'),
+              height: atHero ? 36 : 38,
+              padding: isTablet ? '0 16px' : '0 20px',
               borderRadius: 999,
-              border: '1px solid rgba(0,0,0,0.08)',
-              background: '#fff',
-              color: '#1F2937',
               fontFamily: 'Inter, sans-serif', 
               fontSize: isTablet ? 12.5 : 13.5, 
               fontWeight: 600, 
-              display: 'flex',
+              display: 'inline-flex',
               alignItems: 'center',
-              gap: 8,
+              justifyContent: 'center',
               cursor: 'pointer', 
               whiteSpace: 'nowrap', 
               flexShrink: 0,
-              boxShadow: '0 4px 16px rgba(15,23,42,0.08)',
-              transition: morphTransition,
+              background: '#1F2937',
+              color: '#FFFFFF',
+              border: 'none',
+              transition: 'all 0.2s ease',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.boxShadow = '0 6px 20px rgba(15,23,42,0.14)';
+              e.currentTarget.style.background = '#111827';
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.boxShadow = '0 4px 16px rgba(15,23,42,0.08)';
+              e.currentTarget.style.background = '#1F2937';
             }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1E3A8A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            Call Us
+            {/* Structural flex containers inside the button anchor fix alignment and text centering instantly */}
+            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span style={{ display: 'inline-block', lineHeight: 1 }}>WhatsApp</span>
+            </span>
           </a>
         )}
 
@@ -202,8 +209,8 @@ export default function Navbar() {
           <button
             style={{ 
               width: 38, height: 38, borderRadius: '50%', 
-              border: '1px solid rgba(0,0,0,0.1)', 
-              background: 'rgba(0,0,0,0.04)', 
+              border: '1px solid rgba(0,0,0,0.06)', 
+              background: 'rgba(0,0,0,0.03)', 
               color: '#1F2937', 
               display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0,
               transition: morphTransition
@@ -223,10 +230,11 @@ export default function Navbar() {
       {isMobile && (
         <div style={{
           position: 'absolute', top: atHero ? 78 : 72, left: 0, right: 0,
-          background: 'rgba(255,255,255,0.98)', backdropFilter: 'blur(30px)',
+          background: 'rgba(255,255,255,0.92)', 
+          backdropFilter: 'blur(24px) saturate(180%)',
           border: '1px solid rgba(0,0,0,0.06)', borderRadius: 24, padding: '16px',
           display: 'flex', flexDirection: 'column', gap: 4,
-          boxShadow: '0 20px 55px rgba(0,0,0,0.1)',
+          boxShadow: '0 20px 40px rgba(0,0,0,0.06)',
           transform: mobileMenu ? 'translateY(0px) scale(1)' : 'translateY(-10px) scale(.96)',
           opacity: mobileMenu ? 1 : 0, pointerEvents: mobileMenu ? 'auto' : 'none',
           transition: 'opacity .35s cubic-bezier(0.2, 1, 0.2, 1), transform .35s cubic-bezier(0.2, 1, 0.2, 1), top 0.6s cubic-bezier(0.2, 1, 0.2, 1)',
@@ -240,9 +248,12 @@ export default function Navbar() {
             </a>
           ))}
           <div style={{ height: '8px' }} />
-          <a href={`tel:+${phoneNumber}`} style={{ textDecoration: 'none', width: '100%', height: 46, borderRadius: 999, border: 'none', background: '#1F2937', color: '#fff', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            Call Us · {displayNumber}
+
+          <a href={`https://wa.me/${phoneNumber}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', width: '100%', height: 44, borderRadius: 999, border: 'none', background: '#1F2937', color: '#fff', fontSize: 14, fontWeight: 600, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontFamily: 'Inter,sans-serif' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              <span style={{ display: 'inline-block', lineHeight: 1 }}>Chat on WhatsApp</span>
+            </span>
           </a>
         </div>
       )}

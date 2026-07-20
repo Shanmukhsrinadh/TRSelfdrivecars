@@ -1,80 +1,207 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Building2, PlaneTakeoff, Map, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, Car, Plane, Clock, MapPin, Heart, Sparkles, Building, Calendar, ShieldCheck } from 'lucide-react';
 
 const services = [
   {
-    icon: <Building2 className="w-6 h-6" />,
-    tag: 'City',
-    title: 'Explore Vizag your way',
-    description: 'No fixed routes, no waiting for autos. Meetings, errands, a beach evening at Rushikonda — the car and driver stay with you all day.',
-    cta: 'Book a City Ride',
+    title: 'Self Drive Cars',
+    icon: Car,
+    description: 'Skip the driver and take the wheel. Enjoy our well-maintained fleet for weekend getaways, errands, or personal trips.',
   },
   {
-    icon: <PlaneTakeoff className="w-6 h-6" />,
-    tag: 'Airport',
-    title: 'Stress-free airport arrivals',
-    description: 'We track your flight, not the clock — so a delay never means an empty pickup point. Driver on the curb, bags loaded, done.',
-    cta: 'Book Airport Transfer',
+    title: 'Airport Pickup & Drop',
+    icon: Plane,
+    description: 'We track your flight live so delays never mean a missed connection. A professional driver awaits right at the curb.',
   },
   {
-    icon: <Map className="w-6 h-6" />,
-    tag: 'Outstation',
-    title: 'Weekend escapes',
-    description: 'Araku Valley at sunrise, Annavaram for the family, Srikakulam for a quick detour — a driver who knows the ghat roads better than the GPS.',
-    cta: 'Plan an Outstation Trip',
+    title: 'Daily Rentals',
+    icon: Clock,
+    description: 'Perfect for busy meeting schedules or shopping sprees. Keep a dedicated vehicle and driver all day.',
+  },
+  {
+    title: 'Outstation Trips',
+    icon: MapPin,
+    description: 'Travel safely to Araku Valley, Annavaram, or beyond with expert drivers who know the ghat roads perfectly.',
+  },
+  {
+    title: 'Wedding Rentals',
+    icon: Heart,
+    description: 'Keep your guests, family, and VIPs moving smoothly on schedule with coordinated fleet logistics management.',
+  },
+  {
+    title: 'Luxury Fleet',
+    icon: Sparkles,
+    description: 'Make an impression. Premium segment luxury vehicles tailored for special events or high-end corporate executives.',
+  },
+  {
+    title: 'Corporate Travel',
+    icon: Building,
+    description: 'Streamlined corporate mobility solutions featuring regular monthly billing options and priority execution.',
+  },
+  {
+    title: 'Monthly Subscriptions',
+    icon: Calendar,
+    description: 'Get a reliable vehicle for your daily commute without long-term bank loans, down payments, or maintenance stress.',
+  },
+  {
+    title: '24/7 Dedicated Support',
+    icon: ShieldCheck,
+    description: 'Travel with total peace of mind. Our customer help desk stands ready around the clock to assist your journey.',
   },
 ];
 
 export default function Services() {
+  const [activeMobileIndex, setActiveMobileIndex] = useState(0);
+
   const handleBook = (name) => {
     window.open(`https://wa.me/917702102097?text=${encodeURIComponent(`Hi, I want to book a vehicle for ${name}.`)}`, '_blank');
   };
 
-  return (
-    <section id="services" className="py-24 bg-[#F8FAFC]">
-      <div className="max-w-7xl mx-auto px-6">
+  const handleButtonMouseEnter = (e) => {
+    const btn = e.currentTarget;
+    const bubble = btn.querySelector('.btn-ink-bubble');
+    if (!bubble) return;
 
-        {/* Header */}
-        <div className="max-w-2xl mb-14">
-          <p className="text-[#1E3A8A] font-bold text-sm uppercase tracking-widest mb-3">Our Services</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A] leading-tight mb-4">
-            The Right Ride<br />for Every Journey
+    bubble.style.transition = 'none';
+    bubble.style.transform = 'translate(-50%, -50%) scale(0)';
+
+    void bubble.offsetWidth;
+
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    bubble.style.left = `${x}px`;
+    bubble.style.top = `${y}px`;
+
+    bubble.style.transition = 'transform 500ms cubic-bezier(0.1, 0.8, 0.3, 1)';
+    bubble.style.transform = 'translate(-50%, -50%) scale(2.5)';
+  };
+
+  const handleButtonMouseLeave = (e) => {
+    const bubble = e.currentTarget.querySelector('.btn-ink-bubble');
+    if (bubble) {
+      bubble.style.transform = 'translate(-50%, -50%) scale(0)';
+    }
+  };
+
+  const DynamicButtonCta = ({ title }) => (
+    <button 
+      onClick={(e) => {
+        e.stopPropagation();
+        handleBook(title);
+      }}
+      onMouseEnter={handleButtonMouseEnter}
+      onMouseLeave={handleButtonMouseLeave}
+      className="group/btn relative overflow-hidden inline-flex items-center gap-1.5 text-xs font-bold text-[#0F172A] border border-gray-300 rounded-xl px-4 py-1.5 mt-3 w-fit transition-all duration-300 z-10 bg-white group-hover:bg-[#0F172A] group-hover:text-white group-hover:border-transparent shrink-0"
+    >
+      <span className="btn-ink-bubble absolute w-[140px] h-[140px] bg-[#0F172A] rounded-full pointer-events-none -z-10 transform scale-0" />
+      <span className="relative z-10 transition-colors duration-300">Book Now</span> 
+      <ArrowRight className="w-3.5 h-3.5 relative z-10 transform group-hover/btn:translate-x-0.5 transition-transform duration-300" />
+    </button>
+  );
+
+  const DesktopCard = ({ item, className = "" }) => (
+    <div className={`group bg-white border border-gray-300 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:border-[#0F172A] hover:ring-1 hover:ring-[#0F172A] hover:bg-white/40 hover:backdrop-blur-md hover:shadow-sm overflow-hidden h-full ${className}`}>
+      <div className="overflow-hidden">
+        <h3 className="text-sm font-bold text-[#0F172A] mb-1.5 tracking-tight">{item.title}</h3>
+        <p className="text-[#64748B] text-xs leading-relaxed line-clamp-3 lg:line-clamp-none">
+          {item.description}
+        </p>
+      </div>
+      <DynamicButtonCta title={item.title} />
+    </div>
+  );
+
+  return (
+    <section id="services" className="w-full lg:h-screen bg-gray-50/50 border-t border-gray-100 py-8 lg:py-0 flex flex-col justify-center overflow-x-hidden">
+      <div className="max-w-7xl w-full mx-auto px-6 h-full flex flex-col justify-center py-6">
+
+        {/* Section Header */}
+        <div className="mb-6 shrink-0">
+          <p className="text-[#1E3A8A] font-bold text-xs uppercase tracking-widest mb-1">Our Services</p>
+          <h2 className="text-2xl font-bold text-[#0F172A] tracking-tight mb-1">
+            Comprehensive Mobility Services
           </h2>
-          <p className="text-[#64748B] text-base leading-relaxed">
-            Whether it's a quick city drop or a multi-day outstation trip, we have a vehicle and driver ready for you.
+          <p className="text-[#64748B] text-xs max-w-xl leading-relaxed">
+            Tailored transportation solutions for every requirement in Visakhapatnam.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {services.map((s, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.12 }}
-              className="bg-white rounded-2xl p-7 border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 flex flex-col"
-            >
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-xl bg-[#0F172A] flex items-center justify-center text-white mb-5">
-                {s.icon}
-              </div>
+        {/* =========================================================================
+            MOBILE & TABLET: Interactive Expanding Accordion Matrix (Hidden on lg)
+            ========================================================================= */}
+        <div className="flex flex-col gap-2 lg:hidden">
+          {services.map((s, idx) => {
+            const IconComponent = s.icon;
+            const isOpen = activeMobileIndex === idx;
 
-              <span className="text-[#1E3A8A] text-xs font-bold uppercase tracking-widest mb-2">{s.tag}</span>
-              <h3 className="text-xl font-bold text-[#0F172A] mb-3">{s.title}</h3>
-              <p className="text-[#64748B] text-sm leading-relaxed flex-1 mb-6">{s.description}</p>
-
-              <button
-                onClick={() => handleBook(s.title)}
-                className="flex items-center gap-2 text-sm font-bold text-[#0F172A] hover:text-[#F97316] transition-colors group"
+            return (
+              <div
+                key={idx}
+                onClick={() => setActiveMobileIndex(idx)}
+                onMouseEnter={() => setActiveMobileIndex(idx)}
+                className={`flex flex-col rounded-xl transition-all duration-300 border bg-white overflow-hidden p-3 cursor-pointer
+                  ${isOpen 
+                    ? 'border-[#0F172A] ring-1 ring-[#0F172A] bg-white/40 backdrop-blur-md shadow-sm' 
+                    : 'border-gray-300 bg-white/60 hover:border-gray-400 hover:bg-white'
+                  }`}
               >
-                {s.cta}
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </motion.div>
-          ))}
+                {/* Header Row */}
+                <div className="flex items-center gap-3">
+                  <IconComponent className={`w-4 h-4 shrink-0 ${isOpen ? 'text-[#1E3A8A]' : 'text-[#64748B]'}`} />
+                  <span className="text-xs font-semibold text-[#0F172A] tracking-tight">{s.title}</span>
+                </div>
+
+                {/* Animated Inner Expansion Content */}
+                <div 
+                  className={`grid transition-all duration-300 ease-in-out ${
+                    isOpen ? 'grid-rows-[1fr] opacity-100 mt-2.5' : 'grid-rows-[0fr] opacity-0'
+                  }`}
+                >
+                  <div className="overflow-hidden flex flex-col">
+                    <p className="text-[#64748B] text-xs leading-relaxed">
+                      {s.description}
+                    </p>
+                    <DynamicButtonCta title={s.title} />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        {/* =========================================================================
+            DESKTOP: Asymmetric Staggered Grid Layout (Hidden on mobile/tablet)
+            ========================================================================= */}
+        <div className="hidden lg:flex lg:flex-col lg:gap-4 lg:flex-1 lg:justify-between lg:min-h-0">
+
+          {/* Row 1: Split 60/40 */}
+          <div className="grid grid-cols-5 gap-4 flex-1 min-h-0">
+            <div className="col-span-3 min-h-0"><DesktopCard item={services[0]} /></div>
+            <div className="col-span-2 min-h-0"><DesktopCard item={services[1]} /></div>
+          </div>
+
+          {/* Row 2: Symmetric 3-Card Split */}
+          <div className="grid grid-cols-3 gap-4 flex-1 min-h-0">
+            <div><DesktopCard item={services[2]} /></div>
+            <div><DesktopCard item={services[3]} /></div>
+            <div><DesktopCard item={services[4]} /></div>
+          </div>
+
+          {/* Row 3: Inverted 40/60 */}
+          <div className="grid grid-cols-5 gap-4 flex-1 min-h-0">
+            <div className="col-span-2 min-h-0"><DesktopCard item={services[5]} /></div>
+            <div className="col-span-3 min-h-0"><DesktopCard item={services[6]} /></div>
+          </div>
+
+          {/* Row 4: Final Duo Layout Balance */}
+          <div className="grid grid-cols-12 gap-4 flex-1 min-h-0">
+            <div className="col-span-7 min-h-0"><DesktopCard item={services[7]} /></div>
+            <div className="col-span-5 min-h-0"><DesktopCard item={services[8]} /></div>
+          </div>
+
+        </div>
+
       </div>
     </section>
   );

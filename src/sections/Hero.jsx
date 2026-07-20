@@ -6,28 +6,179 @@ import {
   CalendarDays,
   CarFront,
   ChevronDown,
-  Clock3,
   MapPin,
-  Phone,
   ArrowRight,
+  ShieldCheck,
+  Headset,
+  Car,
+  User,
+  Phone,
 } from "lucide-react";
 
-const HERO_IMAGE = "/images/vizag-coast.jpg";
-const CAR_IMAGE = "/images/fronx.png";
+/* ======================================================================
+   LIVE FLEET DATA & ROUTING UTILITIES
+   ====================================================================== */
+
+const OSRM_BASE = "https://router.project-osrm.org/route/v1/driving";
+
+const PLACES = {
+  mvpColony: [83.319, 17.7326],
+  rkBeach: [83.3245, 17.7128],
+  siripuram: [83.3018, 17.7284],
+  dwarakaNagar: [83.2957, 17.7304],
+  gajuwaka: [83.2078, 17.6868],
+  pendurthi: [83.2404, 17.8214],
+  rushikonda: [83.3826, 17.7817],
+  kailasagiri: [83.3436, 17.7328],
+  yendada: [83.3729, 17.7599],
+  madhurawada: [83.3782, 17.8064],
+  insKursura: [83.3340, 17.7180],
+  jagadamba: [83.3015, 17.7120],
+};
+
+const PLACE_KEYS = Object.keys(PLACES);
+
+const INITIAL_FLEET = [
+  { id: "car_1", status: "booked", baseSpeed: 0.055 },
+  { id: "car_2", status: "booked", baseSpeed: 0.06 },
+  { id: "car_3", status: "booked", baseSpeed: 0.065 },
+  { id: "car_4", status: "available", baseSpeed: 0.05 },
+  { id: "car_5", status: "available", baseSpeed: 0.058 },
+  { id: "car_6", status: "available", baseSpeed: 0.062 },
+  { id: "car_7", status: "booked", baseSpeed: 0.052 },
+  { id: "car_8", status: "available", baseSpeed: 0.048 },
+  { id: "car_9", status: "booked", baseSpeed: 0.057 },
+  { id: "car_10", status: "available", baseSpeed: 0.063 },
+  { id: "car_11", status: "booked", baseSpeed: 0.051 },
+  { id: "car_12", status: "available", baseSpeed: 0.068 },
+];
+
+const PAUSE_DURATION_MS = 5000;
+
+function distanceKm([lng1, lat1], [lng2, lat2]) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const midLat = ((lat1 + lat2) / 2) * (Math.PI / 180);
+  const x = dLng * Math.cos(midLat);
+  return Math.sqrt(x * x + dLat * dLat) * R;
+}
+
+function bearing([lng1, lat1], [lng2, lat2]) {
+  const toRad = (d) => (d * Math.PI) / 180;
+  const φ1 = toRad(lat1);
+  const φ2 = toRad(lat2);
+  const λ1 = toRad(lng2 - lng1);
+  const y = Math.sin(λ1) * Math.cos(φ2);
+  const x =
+    Math.cos(φ1) * Math.sin(φ2) -
+    Math.sin(φ1) * Math.cos(φ2) * Math.cos(λ1);
+  return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
+}
+
+async function fetchRoadRoute(fromCoords, toCoords) {
+  const url = `${OSRM_BASE}/${fromCoords[0]},${fromCoords[1]};${toCoords[0]},${toCoords[1]}?overview=full&geometries=geojson`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`OSRM ${res.status}`);
+    const data = await res.json();
+    const route = data?.routes?.[0];
+    const coords = route?.geometry?.coordinates;
+    if (Array.isArray(coords) && coords.length >= 2) {
+      return coords;
+    }
+    throw new Error("No usable geometry");
+  } catch (err) {
+    console.warn("Falling back to straight-line route:", err);
+    return [fromCoords, toCoords];
+  }
+}
+
+function getRouteDetails(points) {
+  const segmentLengths = [];
+  const cumDist = [0];
+  let acc = 0;
+  for (let i = 0; i < points.length - 1; i++) {
+    const len = distanceKm(points[i], points[i + 1]);
+    segmentLengths.push(len);
+    acc += len;
+    cumDist.push(acc);
+  }
+  return { points, segmentLengths, cumDist, totalLength: acc };
+}
+
+function getLngLatAndSpeedScaleAtDistance(route, dist) {
+  const { points, segmentLengths, cumDist, totalLength } = route;
+  const clamped = Math.min(Math.max(dist, 0), totalLength);
+
+  for (let i = 0; i < segmentLengths.length; i++) {
+    const segLen = segmentLengths[i];
+    const isLast = i === segmentLengths.length - 1;
+
+    if (clamped <= cumDist[i + 1] || isLast) {
+      const segT = segLen === 0 ? 0 : (clamped - cumDist[i]) / segLen;
+      const t = Math.min(Math.max(segT, 0), 1);
+      const p0 = points[i];
+      const p1 = points[i + 1];
+      const currentPos = [p0[0] + (p1[0] - p0[0]) * t, p0[1] + (p1[1] - p0[1]) * t];
+
+      const segLenMeters = segLen * 1000;
+
+      let speedScale = 1.0;
+      if (segLenMeters < 40) {
+        speedScale = 0.35;
+      } else if (segLenMeters > 110) {
+        speedScale = 1.3;
+      } else {
+        speedScale = 0.35 + ((segLenMeters - 40) / 70) * (1.3 - 0.35);
+      }
+
+      return { coords: currentPos, speedScale };
+    }
+  }
+
+  return { coords: points[points.length - 1], speedScale: 1.0 };
+}
+
+function snapToPixel(map, lngLat) {
+  const point = map.project(lngLat);
+  const snapped = { x: Math.round(point.x), y: Math.round(point.y) };
+  const snappedLngLat = map.unproject(snapped);
+  return [snappedLngLat.lng, snappedLngLat.lat];
+}
+
+function buildCarMarkerElement(status) {
+  const el = document.createElement("div");
+  el.className = `map-car map-car--${status}`;
+  el.innerHTML = `
+    <svg viewBox="0 0 24 40" width="100%" height="100%" shape-rendering="geometricPrecision">
+      <ellipse cx="12" cy="34" rx="7" ry="2.4" fill="#0f172a" opacity="0.18"/>
+      <rect x="4" y="5" width="16" height="29" rx="7.5" fill="currentColor"/>
+      <rect x="6.5" y="10" width="11" height="8.5" rx="2.2" fill="#ffffff" opacity="0.95"/>
+      <path d="M8 11.5 L12 11.5" stroke="#e2e8f0" stroke-width="1" opacity="0.9" stroke-linecap="round"/>
+      <circle cx="12" cy="26" r="2.2" fill="#ffffff" opacity="0.8"/>
+      <path d="M6 16 L18 16" stroke="#ffffff" stroke-width="1" opacity="0.3" stroke-linecap="round" />
+      <path d="M8 7.5 C 10 6.5, 14 6.5, 16 7.5" stroke="#ffffff" stroke-width="0.85" opacity="0.4" stroke-linecap="round" fill="none" />
+    </svg>
+  `;
+  return el;
+}
+
+/* ======================================================================
+   MAIN COMPONENT
+   ====================================================================== */
 
 function BookingField({ icon: Icon, label, value }) {
   return (
     <button className="booking-field" type="button">
       <span className="field-icon">
-        <Icon size={21} strokeWidth={1.7} />
+        <Icon size={18} strokeWidth={1.8} />
       </span>
-
       <span className="field-copy">
         <span className="field-label">{label}</span>
         <span className="field-value">{value}</span>
       </span>
-
-      <ChevronDown size={16} />
+      <ChevronDown size={15} />
     </button>
   );
 }
@@ -39,129 +190,173 @@ export default function HeroSection() {
   useEffect(() => {
     if (!mapContainer.current || mapRef.current) return;
 
+    let animationFrameId = null;
+    let vehicleStates = [];
+    let isCleanedUp = false;
+
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: "https://tiles.openfreemap.org/styles/positron",
-      center: [83.3, 17.715],
-      zoom: 10.75,
+      center: [83.312, 17.721], 
+      zoom: 13.9,
       attributionControl: false,
       interactive: false,
       fadeDuration: 0,
+      antialias: true,
+      preserveDrawingBuffer: true,
+      pixelRatio: window.devicePixelRatio || 2,
     });
 
     mapRef.current = map;
 
+    const resizeObserver = new ResizeObserver(() => {
+      if (mapRef.current) {
+        mapRef.current.resize();
+      }
+    });
+    resizeObserver.observe(mapContainer.current);
+
     map.on("load", () => {
-      const layers = map.getStyle().layers || [];
+      if (isCleanedUp) return;
 
-      const firstLayer = layers.find(
-        (layer) => layer.type !== "background"
-      );
+      if (map.getLayer("water")) {
+        map.setPaintProperty("water", "fill-color", "#D7ECFF");
+      }
 
-      map.addSource("hero-photo", {
-        type: "image",
-        url: HERO_IMAGE,
-        coordinates: [
-          [83.1, 17.9],
-          [83.52, 17.9],
-          [83.52, 17.52],
-          [83.1, 17.52],
-        ],
-      });
-
-      map.addLayer(
-        {
-          id: "hero-photo-layer",
-          type: "raster",
-          source: "hero-photo",
-          paint: {
-            "raster-opacity": 1,
-            "raster-fade-duration": 0,
-          },
-        },
-        firstLayer?.id
-      );
-
+      const layers = map.getStyle().layers;
       layers.forEach((layer) => {
-        const id = layer.id.toLowerCase();
-
-        try {
-          if (layer.type === "background") {
-            map.setPaintProperty(
-              layer.id,
-              "background-color",
-              "#ffffff"
-            );
-          }
-
-          if (layer.type === "fill") {
-            const isWater =
-              id.includes("water") ||
-              id.includes("ocean") ||
-              id.includes("sea");
-
-            if (isWater) {
-              map.setPaintProperty(layer.id, "fill-opacity", 0);
-            } else {
-              map.setPaintProperty(
-                layer.id,
-                "fill-color",
-                "#ffffff"
-              );
-
-              map.setPaintProperty(
-                layer.id,
-                "fill-opacity",
-                0.97
-              );
+        if (layer.type === "line" && (layer.id.includes("road") || layer.id.includes("highway") || layer.id.includes("link"))) {
+          try {
+            map.setPaintProperty(layer.id, "line-opacity", 0.95);
+            const originalColor = map.getPaintProperty(layer.id, "line-color");
+            if (originalColor && typeof originalColor === "string" && originalColor.startsWith("#")) {
+              map.setPaintProperty(layer.id, "line-color", "#e2e8f0");
             }
+          } catch (e) {
+            // Fail-safe
           }
-
-          if (layer.type === "line") {
-            const isRoad =
-              id.includes("road") ||
-              id.includes("street") ||
-              id.includes("highway");
-
-            map.setPaintProperty(
-              layer.id,
-              "line-color",
-              "#91a4b5"
-            );
-
-            map.setPaintProperty(
-              layer.id,
-              "line-opacity",
-              isRoad ? 0.13 : 0.04
-            );
-          }
-
-          if (layer.type === "symbol") {
-            map.setPaintProperty(
-              layer.id,
-              "text-color",
-              "#8797a7"
-            );
-
-            map.setPaintProperty(
-              layer.id,
-              "text-opacity",
-              0.3
-            );
-
-            map.setLayoutProperty(
-              layer.id,
-              "icon-visibility",
-              "none"
-            );
-          }
-        } catch {
-          // Ignore unsupported layer properties.
         }
       });
+
+      // Initialize Live Vehicles with random starting locations
+      vehicleStates = INITIAL_FLEET.map((cfg) => {
+        const randomFromKey = PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
+
+        let randomToKey = PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
+        while (randomToKey === randomFromKey) {
+          randomToKey = PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
+        }
+
+        const marker = new maplibregl.Marker({
+          element: buildCarMarkerElement(cfg.status),
+          rotationAlignment: "viewport",
+          pitchAlignment: "viewport",
+        })
+          .setLngLat(PLACES[randomFromKey])
+          .addTo(map);
+
+        return {
+          id: cfg.id,
+          status: cfg.status,
+          marker,
+          baseSpeed: cfg.baseSpeed,
+          currentLocationKey: randomFromKey,
+          destinationLocationKey: randomToKey,
+          state: "fetching",
+          route: null,
+          distanceTravelled: 0,
+          pauseStartTime: 0,
+          smoothedSpeedScale: 1.0,
+        };
+      });
+
+      async function setupNextLeg(vehicle) {
+        if (!mapRef.current || isCleanedUp) return;
+        vehicle.state = "fetching";
+
+        let nextSpotKey = vehicle.destinationLocationKey;
+        while (nextSpotKey === vehicle.destinationLocationKey) {
+          nextSpotKey = PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
+        }
+
+        const fromCoords = PLACES[vehicle.destinationLocationKey];
+        const toCoords = PLACES[nextSpotKey];
+        const pathCoords = await fetchRoadRoute(fromCoords, toCoords);
+
+        if (isCleanedUp) return;
+
+        vehicle.currentLocationKey = vehicle.destinationLocationKey;
+        vehicle.destinationLocationKey = nextSpotKey;
+        vehicle.route = getRouteDetails(pathCoords);
+        vehicle.distanceTravelled = 0;
+        vehicle.state = "moving";
+      }
+
+      vehicleStates.forEach(async (v) => {
+        const fromCoords = PLACES[v.currentLocationKey];
+        const toCoords = PLACES[v.destinationLocationKey];
+        const pathCoords = await fetchRoadRoute(fromCoords, toCoords);
+
+        if (isCleanedUp) return;
+
+        v.route = getRouteDetails(pathCoords);
+        v.state = "moving";
+      });
+
+      let lastTime = performance.now();
+
+      const runLoop = (now) => {
+        if (isCleanedUp) return;
+        const deltaMs = now - lastTime;
+        lastTime = now;
+
+        vehicleStates.forEach((v) => {
+          if (v.state === "moving" && v.route) {
+            const { coords: currentPos, speedScale } = getLngLatAndSpeedScaleAtDistance(v.route, v.distanceTravelled);
+
+            v.smoothedSpeedScale += (speedScale - v.smoothedSpeedScale) * 0.08;
+
+            const kmPerMs = (v.baseSpeed * v.smoothedSpeedScale) / 1000;
+            v.distanceTravelled += deltaMs * kmPerMs;
+
+            const lookaheadResult = getLngLatAndSpeedScaleAtDistance(v.route, v.distanceTravelled + 0.08);
+            const lookaheadPos = lookaheadResult.coords;
+
+            v.marker.setLngLat(snapToPixel(map, currentPos));
+
+            if (currentPos[0] !== lookaheadPos[0] || currentPos[1] !== lookaheadPos[1]) {
+              v.marker.setRotation(bearing(currentPos, lookaheadPos));
+            }
+
+            if (v.distanceTravelled >= v.route.totalLength) {
+              v.state = "paused";
+              v.pauseStartTime = now;
+            }
+          } else if (v.state === "paused") {
+            if (now - v.pauseStartTime >= PAUSE_DURATION_MS) {
+              setupNextLeg(v);
+            }
+          }
+        });
+
+        animationFrameId = requestAnimationFrame(runLoop);
+      };
+
+      animationFrameId = requestAnimationFrame(runLoop);
     });
 
     return () => {
+      isCleanedUp = true;
+      resizeObserver.disconnect();
+
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+
+      vehicleStates.forEach((v) => {
+        v.marker.remove();
+      });
+
       map.remove();
       mapRef.current = null;
     };
@@ -170,482 +365,402 @@ export default function HeroSection() {
   return (
     <>
       <style>{`
-        * {
-          box-sizing: border-box;
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght=500;600;700&family=Inter:wght=400;500;600;700&display=swap');
+
+        * { box-sizing: border-box; }
+
+        html, body {
+          margin: 0;
+          overflow-x: hidden;
         }
 
         body {
-          margin: 0;
-          font-family: Inter, system-ui, -apple-system,
-            BlinkMacSystemFont, "Segoe UI", sans-serif;
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          background: #ffffff;
         }
 
         .hero {
-          --ink: #151b22;
-          --muted: #737e8a;
-          --accent: #7f9bb5;
+          --ink: #0f172a;
+          --muted: #64748b;
+          --accent: #0f172a;       
+          --accent-soft: #f1f5f9;  
+          --paper: #ffffff; /* Changed to pure white to align all surrounding components */
 
           position: relative;
           min-height: 100vh;
+          min-height: 100svh;
           overflow: hidden;
-          background: #ffffff;
+          background: var(--paper);
           color: var(--ink);
         }
 
+        /* Prevent WebGL border artifacts by slightly bleeding map outside boundaries */
         .hero-map {
           position: absolute;
-          inset: 0;
-          z-index: 0;
-        }
-
-        .hero-map .maplibregl-canvas {
-          outline: none;
-        }
-
-        .hero-wash {
-          position: absolute;
-          inset: 0;
+          top: -2px;
+          bottom: -2px;
+          left: -2px;
+          right: -2px;
           z-index: 1;
+        }
+
+        .hero-map .maplibregl-canvas { outline: none; }
+
+        .map-car {
+          width: 20px;
+          height: 33px;
           pointer-events: none;
-
-          background:
-            linear-gradient(
-              90deg,
-              rgba(255,255,255,.25) 0%,
-              transparent 48%
-            ),
-            linear-gradient(
-              0deg,
-              #fff 0%,
-              transparent 20%
-            );
+          will-change: transform;
+          transition: transform 0.08s linear;
         }
 
-        /* NAVIGATION */
+        .map-car--booked { color: #0f172a; }     
+        .map-car--available { color: #94a3b8; }  
 
-        .hero-nav {
-          position: relative;
-          z-index: 10;
-
-          height: 105px;
-          padding: 0 5%;
-
-          display: grid;
-          grid-template-columns: 1fr auto 1fr;
-          align-items: center;
+        /* High-Definition Seamless Bottom Fade with pure white base */
+        .hero-bottom-fade {
+          position: absolute;
+          bottom: -2px; 
+          left: -2px;
+          right: -2px;
+          height: 220px; 
+          background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.1) 15%,
+            rgba(255, 255, 255, 0.4) 38%,
+            rgba(255, 255, 255, 0.75) 62%,
+            rgba(255, 255, 255, 0.96) 80%,
+            #ffffff 100%
+          );
+          pointer-events: none;
+          z-index: 2; 
         }
-
-        .brand {
-          display: flex;
-          align-items: center;
-          gap: 13px;
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .brand-mark {
-          width: 46px;
-          height: 46px;
-
-          display: grid;
-          place-items: center;
-
-          border: 2px solid var(--ink);
-          border-radius: 50%;
-
-          font-size: 24px;
-        }
-
-        .brand strong,
-        .brand small {
-          display: block;
-        }
-
-        .brand strong {
-          font-size: 16px;
-          letter-spacing: .22em;
-        }
-
-        .brand small {
-          margin-top: 3px;
-          font-size: 9px;
-          letter-spacing: .28em;
-        }
-
-        .nav-links {
-          display: flex;
-          gap: 44px;
-        }
-
-        .nav-links a {
-          color: inherit;
-          text-decoration: none;
-          font-size: 14px;
-        }
-
-        .call-button {
-          justify-self: end;
-
-          display: flex;
-          align-items: center;
-          gap: 9px;
-
-          padding: 12px 19px;
-
-          color: inherit;
-          text-decoration: none;
-
-          background: rgba(255,255,255,.75);
-          border: 1px solid rgba(21,27,34,.12);
-          border-radius: 10px;
-
-          backdrop-filter: blur(12px);
-        }
-
-        /* CONTENT */
 
         .hero-content {
           position: relative;
-          z-index: 5;
-
-          min-height: calc(100vh - 105px);
-
+          z-index: 3;
+          min-height: 100vh;
+          min-height: 100svh;
           display: flex;
           align-items: center;
+          padding-left: 6%;
+          padding-bottom: 120px;
+          pointer-events: none;
 
-          padding: 0 5% 170px;
+          /* Side gradient adjusted to pure white to eliminate conflict at bottom-left corner */
+          background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.98) 0%,
+            rgba(255, 255, 255, 0.88) 12%,
+            rgba(255, 255, 255, 0.45) 22%,
+            rgba(255, 255, 255, 0) 30%
+          );
         }
 
         .hero-copy {
-          transform: translateY(-15px);
+          max-width: 28vw;
+          width: 100%;
+          pointer-events: auto;
+          display: flex;
+          flex-direction: column;
         }
 
         .eyebrow {
-          margin: 0 0 28px;
-
-          color: var(--accent);
-
-          font-size: 13px;
-          font-weight: 600;
-          letter-spacing: .19em;
+          margin: 0 0 14px;
+          color: var(--muted);
+          font-size: clamp(10px, 0.8vw + 8px, 12px);
+          font-weight: 700;
+          letter-spacing: .2em;
+          text-transform: uppercase;
         }
 
         .hero-copy h1 {
-          margin: 0;
-
-          font-size: clamp(58px, 5.3vw, 92px);
-          line-height: .98;
-          letter-spacing: -.055em;
-          font-weight: 620;
+          margin: 0 0 18px;
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: clamp(34px, 4vw + 12px, 52px);
+          line-height: 1.12;
+          letter-spacing: -.03em;
+          font-weight: 700;
+          color: var(--ink);
         }
 
-        .hero-copy h1 span {
-          color: var(--accent);
-        }
-
-        .title-rule {
-          width: 50px;
-          height: 2px;
-
-          margin: 30px 0 24px;
-
-          background: var(--accent);
-        }
+        .hero-copy h1 span { color: #000000; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
 
         .hero-description {
-          margin: 0;
-
+          margin: 0 0 36px;
           color: var(--muted);
-
-          font-size: 18px;
-          line-height: 1.7;
+          font-size: clamp(14px, 0.5vw + 13px, 17px);
+          line-height: 1.55;
+          font-weight: 500;
         }
 
-        /* CAR */
-
-        .hero-car {
-          position: absolute;
-          z-index: 4;
-
-          right: 3%;
-          bottom: 17%;
-
-          width: min(44vw, 720px);
-
-          object-fit: contain;
-          pointer-events: none;
-
-          filter:
-            drop-shadow(
-              0 30px 28px rgba(20,28,35,.16)
-            );
+        .feature-row {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 20px 24px;
         }
 
-        /* BOOKING */
+        .feature-chip {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
 
+        .feature-icon {
+          color: var(--ink);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .feature-text {
+          font-size: clamp(11.5px, 0.3vw + 11px, 13.5px);
+          font-weight: 600;
+          color: var(--ink);
+          line-height: 1.3;
+        }
+
+        .feature-text span {
+          color: var(--muted);
+          font-weight: 400;
+        }
+
+        /* Large Screen structure */
         .booking-shell {
           position: absolute;
-          z-index: 20;
-
-          left: 5%;
-          right: 5%;
-          bottom: 9%;
+          z-index: 4;
+          left: 16px;
+          right: 16px;
+          bottom: 12%; 
+          transform: translateY(10px); 
+          width: calc(100% - 32px);
+          max-width: 1180px;
+          margin: 0 auto;
         }
 
         .booking-bar {
-          min-height: 120px;
-
           display: grid;
-
-          grid-template-columns:
-            1.15fr
-            .85fr
-            .8fr
-            1.05fr
-            auto;
-
+          grid-template-columns: 1.15fr 0.95fr 1.1fr 1fr 1.05fr auto;
           align-items: center;
-
-          padding: 16px 18px;
-
-          background: rgba(255,255,255,.91);
-
-          border: 1px solid rgba(255,255,255,.9);
-          border-radius: 17px;
-
-          box-shadow:
-            0 22px 60px rgba(34,49,62,.12);
-
-          backdrop-filter: blur(22px);
+          padding: 6px 8px;
+          background: rgba(255, 255, 255, 0.98);
+          border: 1px solid rgba(15, 23, 42, 0.08);
+          border-radius: 14px;
+          box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
+          backdrop-filter: blur(20px);
         }
 
         .booking-field {
           min-width: 0;
-          height: 72px;
-
+          height: 56px;
           display: flex;
           align-items: center;
-          gap: 15px;
-
-          padding: 0 24px;
-
+          gap: 10px;
+          padding: 0 12px;
           color: var(--ink);
           text-align: left;
-
           background: transparent;
           border: 0;
-          border-right: 1px solid rgba(122,145,166,.15);
-
+          border-right: 1px solid rgba(15, 23, 42, 0.08);
           cursor: pointer;
         }
 
         .field-icon {
-          flex: 0 0 46px;
-
-          width: 46px;
-          height: 46px;
-
+          flex: 0 0 32px;
+          width: 32px;
+          height: 32px;
           display: grid;
           place-items: center;
-
-          background: #f4f7fa;
+          background: var(--accent-soft);
+          color: var(--accent);
           border-radius: 50%;
         }
 
-        .field-copy {
-          min-width: 0;
-          flex: 1;
-        }
-
-        .field-label,
-        .field-value {
-          display: block;
-        }
+        .field-copy { min-width: 0; flex: 1; }
+        .field-label, .field-value { display: block; }
 
         .field-label {
-          margin-bottom: 7px;
-
-          font-size: 14px;
+          margin-bottom: 1px;
+          font-size: 11.5px;
           font-weight: 600;
         }
 
         .field-value {
           overflow: hidden;
-
-          color: #8993a0;
-
-          font-size: 13px;
-
+          color: var(--muted);
+          font-size: 11.5px;
           white-space: nowrap;
           text-overflow: ellipsis;
         }
 
         .find-car-button {
-          height: 62px;
-
-          margin-left: 20px;
-          padding: 0 28px;
-
+          height: 48px;
+          margin-left: 8px;
+          padding: 0 22px;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 20px;
-
+          gap: 8px;
           color: #fff;
-          font-size: 15px;
-
+          font-size: 13px;
+          font-weight: 600;
           background: var(--accent);
           border: 0;
-          border-radius: 9px;
-
+          border-radius: 10px;
           cursor: pointer;
-
-          transition:
-            transform .25s ease,
-            box-shadow .25s ease;
+          white-space: nowrap;
+          transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
         }
 
         .find-car-button:hover {
-          transform: translateY(-2px);
-
-          box-shadow:
-            0 12px 25px rgba(80,110,140,.2);
+          background-color: #1e293b; 
+          transform: translateY(-1.5px);
+          box-shadow: 0 8px 16px rgba(15, 23, 42, 0.15);
         }
 
-        /* SCROLL */
-
-        .scroll-hint {
+        /* Responsive Scroll down animation indicator styles */
+        .scroll-indicator {
           position: absolute;
-          z-index: 20;
-
-          bottom: 1.5%;
+          bottom: 2.5%;
           left: 50%;
-
           transform: translateX(-50%);
-
-          text-align: center;
-        }
-
-        .mouse {
-          width: 20px;
-          height: 31px;
-
-          margin: 0 auto 10px;
-
-          display: block;
-
-          border: 1.5px solid var(--ink);
-          border-radius: 12px;
-        }
-
-        .mouse span {
-          width: 2px;
-          height: 6px;
-
-          margin: 5px auto;
-
-          display: block;
-
-          background: var(--ink);
-          border-radius: 10px;
-        }
-
-        .scroll-hint p {
-          margin: 0;
-
+          z-index: 5;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 3px;
+          color: var(--muted);
+          font-family: 'Space Grotesk', sans-serif;
           font-size: 10px;
-          letter-spacing: .24em;
+          font-weight: 700;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          pointer-events: none;
+          opacity: 0.85;
         }
 
-        /* TABLET */
+        .bounce-arrow {
+          animation: indicatorBounce 1.8s infinite ease-in-out;
+        }
 
+        @keyframes indicatorBounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(4px); }
+        }
+
+        /* ---------- Large laptop / narrower desktop ---------- */
+        @media (max-width: 1300px) {
+          .hero-copy { max-width: 34vw; }
+        }
+
+        /* ---------- Tablet landscape ---------- */
         @media (max-width: 1100px) {
-          .hero-nav {
-            grid-template-columns: 1fr 1fr;
+          .booking-shell { 
+            max-width: 1100px; 
+            bottom: 10%;
+            transform: translateY(10px);
           }
-
-          .nav-links {
-            display: none;
-          }
-
-          .hero-car {
-            right: -8%;
-            width: 58vw;
-          }
-
           .booking-bar {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
           }
+          .booking-field { border-right: 0; }
+          .find-car-button { grid-column: 1 / -1; margin: 4px 0 0; }
+          .hero-copy { max-width: 42vw; }
 
-          .booking-field {
-            border-right: 0;
-          }
-
-          .find-car-button {
-            grid-column: 1 / -1;
-            margin: 5px 0 0;
-          }
-
-          .booking-shell {
-            bottom: 4%;
-          }
-
-          .scroll-hint {
-            display: none;
+          .hero-content {
+            background: linear-gradient(
+              to right,
+              rgba(255, 255, 255, 0.98) 0%,
+              rgba(255, 255, 255, 0.88) 25%,
+              rgba(255, 255, 255, 0.45) 38%,
+              rgba(255, 255, 255, 0) 45%
+            );
           }
         }
 
-        /* MOBILE */
+        /* ---------- Tablet portrait / large phones ---------- */
+        @media (max-width: 900px) {
+          .hero-copy { max-width: 56vw; }
+          .hero-content { padding-left: 8%; }
+        }
 
+        /* ---------- Mobile (Layout Parameters Intact) ---------- */
         @media (max-width: 720px) {
-          .hero-nav {
-            height: 82px;
+          .hero {
+            min-height: 100vh;
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-start;
           }
 
-          .brand-mark {
-            width: 40px;
-            height: 40px;
-          }
-
-          .brand strong {
-            font-size: 13px;
-          }
-
-          .call-button {
-            padding: 10px 13px;
+          .hero-map {
+            position: absolute;
+            inset: 0;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.3;
+            order: unset;
           }
 
           .hero-content {
+            position: relative;
+            z-index: 3;
+            min-height: auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
             align-items: flex-start;
+            justify-content: center;
+            padding: 40px 24px 12px;
+            margin-top: auto; 
+            background: transparent;
+            order: unset;
+          }
 
-            padding-top: 95px;
-            padding-bottom: 500px;
+          .hero::before {
+            display: none;
+          }
+
+          .hero-copy {
+            max-width: 100%;
+            align-items: flex-start;
+            text-align: left;
           }
 
           .hero-copy h1 {
-            font-size: 54px;
+            font-size: clamp(32px, 7vw + 8px, 46px);
+            margin-bottom: 14px;
           }
 
           .hero-description {
-            font-size: 16px;
+            font-size: clamp(14.5px, 2vw + 8px, 16.5px);
+            margin-bottom: 24px;
           }
 
-          .hero-car {
-            right: -22%;
-            bottom: 33%;
-
-            width: 110vw;
+          .feature-row {
+            justify-content: flex-start;
+            gap: 14px 20px;
+            margin-bottom: 24px;
           }
 
           .booking-shell {
             position: relative;
-
+            z-index: 4;
             left: auto;
             right: auto;
             bottom: auto;
-
-            margin: -320px 18px 30px;
+            transform: translateY(10px); 
+            max-width: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0 24px 40px;
+            order: unset;
           }
 
           .booking-bar {
@@ -653,92 +768,104 @@ export default function HeroSection() {
           }
 
           .booking-field {
-            padding: 0 12px;
+            padding: 0 10px;
+            border-right: 0;
+            border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+          }
+
+          .booking-field:last-of-type {
+            border-bottom: 0;
           }
 
           .find-car-button {
             width: 100%;
+            margin: 8px 0 0;
           }
+
+          /* Persistent scroll indicator formatted for mobile devices */
+          .scroll-indicator {
+            position: relative;
+            bottom: auto;
+            left: auto;
+            transform: none;
+            width: 100%;
+            margin-top: -10px;
+            padding-bottom: 28px;
+            justify-content: center;
+          }
+
+          .hero-bottom-fade {
+            height: 120px;
+          }
+        }
+
+        /* ---------- Small phones ---------- */
+        @media (max-width: 420px) {
+          .hero-content {
+            padding: 32px 16px 12px;
+          }
+          .booking-shell { padding: 0 16px 32px; }
+          .booking-field { height: 52px; gap: 8px; }
+          .field-icon { flex-basis: 28px; width: 28px; height: 28px; }
+          .scroll-indicator { padding-bottom: 20px; }
         }
       `}</style>
 
       <section className="hero">
         <div ref={mapContainer} className="hero-map" />
 
-        <div className="hero-wash" />
-
-
+        {/* Smooth Bottom Fade Overlay */}
+        <div className="hero-bottom-fade" />
 
         <main className="hero-content">
           <div className="hero-copy">
-            <p className="eyebrow">
-              FREEDOM. FLEXIBILITY. YOU.
-            </p>
+            <p className="eyebrow">Freedom. Flexibility. You.</p>
 
             <h1>
-              Your City.
-              <br />
-              Your <span>Drive.</span>
+              Your City.<br />Your <span>Drive.</span>
             </h1>
 
-            <div className="title-rule" />
-
             <p className="hero-description">
-              Premium self drive cars in Visakhapatnam.
-              <br />
-              Anytime, anywhere.
+              Premium self drive cars in Visakhapatnam. Anytime, anywhere.
             </p>
+
+            <div className="feature-row">
+              <div className="feature-chip">
+                <span className="feature-icon"><Car size={16} strokeWidth={2.2} /></span>
+                <div className="feature-text">Wide Range <span>of Cars</span></div>
+              </div>
+
+              <div className="feature-chip">
+                <span className="feature-icon"><ShieldCheck size={16} strokeWidth={2.2} /></span>
+                <div className="feature-text">Insurance <span>Included</span></div>
+              </div>
+
+              <div className="feature-chip">
+                <span className="feature-icon"><Headset size={16} strokeWidth={2.2} /></span>
+                <div className="feature-text">24x7 <span>Support</span></div>
+              </div>
+            </div>
           </div>
         </main>
 
-        <img
-          className="hero-car"
-          src={CAR_IMAGE}
-          alt="Maruti Suzuki Fronx"
-        />
-
         <div className="booking-shell">
           <div className="booking-bar">
-            <BookingField
-              icon={CarFront}
-              label="Car Model"
-              value="Maruti Suzuki Fronx"
-            />
-
-            <BookingField
-              icon={CalendarDays}
-              label="Date"
-              value="Select date"
-            />
-
-            <BookingField
-              icon={Clock3}
-              label="Time"
-              value="Select time"
-            />
-
-            <BookingField
-              icon={MapPin}
-              label="Pick-up Location"
-              value="Select location"
-            />
-
-            <button
-              className="find-car-button"
-              type="button"
-            >
-              Find My Car
-              <ArrowRight size={19} />
+            <BookingField icon={CarFront} label="Choose Vehicle" value="Maruti Suzuki Fronx" />
+            <BookingField icon={CalendarDays} label="Pick-up Date" value="24 May 2026" />
+            <BookingField icon={MapPin} label="Pick-up Location" value="MVP Colony" />
+            <BookingField icon={User} label="Name" value="Enter your name" />
+            <BookingField icon={Phone} label="Phone Number" value="Enter phone number" />
+            <button className="find-car-button" type="button">
+              Check Availability
+              <ArrowRight size={17} />
             </button>
           </div>
         </div>
 
-        <div className="scroll-hint">
-          <span className="mouse">
-            <span />
-          </span>
-
-          <p>SCROLL TO EXPLORE</p>
+        {/* Minimal Scroll Down Animation Indicator */}
+        <div className="scroll-indicator">
+          <span>Our Cars</span>
+          <ChevronDown size={14} className="bounce-arrow" strokeWidth={2.5} />
         </div>
       </section>
     </>
