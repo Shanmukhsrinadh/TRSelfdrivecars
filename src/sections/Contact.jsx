@@ -33,7 +33,7 @@ export default function PickupRequirements() {
           {/* Section 1: Requirements (Fixed Height Boundary) */}
           <div className="h-[250px]">
             <div className="mb-4">
-              <p className="text-[#0f172a] text-[11px] font-bold tracking-[0.2em] uppercase mb-1">
+              <p className="text-[#94A3B8] text-[11px] font-bold tracking-[0.2em] uppercase mb-1">
                 PROCESS.
               </p>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#0f172a]">
@@ -149,7 +149,7 @@ export default function PickupRequirements() {
             href="https://maps.app.goo.gl/aH4iYWQzd7aYqMbTA"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-center gap-2 bg-[#0b1220] hover:bg-[#111c30] text-white text-xs font-semibold py-4 rounded-xl transition-all shadow-sm mt-auto"
+            className="w-full flex items-center justify-center gap-2 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-semibold py-4 rounded-xl transition-all shadow-sm mt-auto"
           >
             <ExternalLink className="w-4 h-4" />
             <span>Open in Google Maps</span>

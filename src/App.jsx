@@ -11,9 +11,13 @@ import Testimonials from './sections/Testimonials';
 import Gallery from './sections/Gallery';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
+import CreditsPage from './pages/CreditsPage';
 
 function App() {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [activePage, setActivePage] = useState(null); // 'privacy' | 'terms' | 'credits'
 
   // Allow child components to open vehicle detail via custom event
   useEffect(() => {
@@ -41,7 +45,7 @@ function App() {
         <Contact />
         <Gallery />
       </main>
-      <Footer />
+      <Footer onOpenPage={setActivePage} />
       <WhatsAppButton />
 
       {/* Vehicle detail overlay */}
@@ -51,6 +55,11 @@ function App() {
           onClose={() => setSelectedVehicle(null)}
         />
       )}
+
+      {/* Legal / credits overlays */}
+      {activePage === 'privacy'  && <PrivacyPage  onClose={() => setActivePage(null)} />}
+      {activePage === 'terms'    && <TermsPage    onClose={() => setActivePage(null)} />}
+      {activePage === 'credits'  && <CreditsPage  onClose={() => setActivePage(null)} />}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Phone, MapPin } from 'lucide-react';
 
-export default function Footer() {
+export default function Footer({ onOpenPage }) {
   const currentYear = new Date().getFullYear();
   const phoneNumber = "919550563283";
 
@@ -131,8 +131,9 @@ export default function Footer() {
           <p>© {currentYear} Padma Priya Enterprises.</p>
 
           <div className="flex items-center gap-4 text-[11px] md:text-xs">
-            <a href="#privacy" className="hover:text-black transition-colors">Privacy</a>
-            <a href="#terms" className="hover:text-black transition-colors">Terms</a>
+            <button onClick={() => onOpenPage('privacy')} className="hover:text-black transition-colors cursor-pointer">Privacy</button>
+            <button onClick={() => onOpenPage('terms')}   className="hover:text-black transition-colors cursor-pointer">Terms</button>
+            <button onClick={() => onOpenPage('credits')} className="hover:text-black transition-colors cursor-pointer">Credits</button>
           </div>
 
           <p className="text-[10px] md:text-[11px] text-slate-400">
@@ -141,7 +142,7 @@ export default function Footer() {
               href="https://shanmukhportfolio.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-black font-semibold hover:text-blue-600 transition-colors"
+              className="text-black font-semibold hover:underline transition-colors"
             >
               SHANMUKH SRINADH
             </a>
