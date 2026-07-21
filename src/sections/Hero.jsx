@@ -2,11 +2,30 @@ import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import { ChevronDown, ShieldCheck, Headset, Car, CarFront, CalendarDays, MapPin, ArrowRight, User, Phone } from "lucide-react";
+import {
+  ChevronDown,
+  ShieldCheck,
+  Headset,
+  Car,
+  CarFront,
+  CalendarDays,
+  MapPin,
+  ArrowRight,
+  User,
+  Phone,
+} from "lucide-react";
 import vehicles from "../data/vehicles.json";
 
 const WA_NUMBER = "919550563283";
-const LOCATIONS = ["Vizag Airport","Simhachalam","Railway Station","Madhurwada","Gajuwaka","NAD X Roads","Others"];
+const LOCATIONS = [
+  "Vizag Airport",
+  "Simhachalam",
+  "Railway Station",
+  "Madhurwada",
+  "Gajuwaka",
+  "NAD X Roads",
+  "Others",
+];
 const TODAY = new Date().toISOString().split("T")[0];
 
 /* ======================================================================
@@ -26,8 +45,8 @@ const PLACES = {
   kailasagiri: [83.3436, 17.7328],
   yendada: [83.3729, 17.7599],
   madhurawada: [83.3782, 17.8064],
-  insKursura: [83.3340, 17.7180],
-  jagadamba: [83.3015, 17.7120],
+  insKursura: [83.334, 17.718],
+  jagadamba: [83.3015, 17.712],
 };
 
 const PLACE_KEYS = Object.keys(PLACES);
@@ -65,8 +84,7 @@ function bearing([lng1, lat1], [lng2, lat2]) {
   const λ1 = toRad(lng2 - lng1);
   const y = Math.sin(λ1) * Math.cos(φ2);
   const x =
-    Math.cos(φ1) * Math.sin(φ2) -
-    Math.sin(φ1) * Math.cos(φ2) * Math.cos(λ1);
+    Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(λ1);
   return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
 }
 
@@ -114,7 +132,10 @@ function getLngLatAndSpeedScaleAtDistance(route, dist) {
       const t = Math.min(Math.max(segT, 0), 1);
       const p0 = points[i];
       const p1 = points[i + 1];
-      const currentPos = [p0[0] + (p1[0] - p0[0]) * t, p0[1] + (p1[1] - p0[1]) * t];
+      const currentPos = [
+        p0[0] + (p1[0] - p0[0]) * t,
+        p0[1] + (p1[1] - p0[1]) * t,
+      ];
 
       const segLenMeters = segLen * 1000;
 
@@ -165,24 +186,51 @@ function buildCarMarkerElement(status) {
 export default function HeroSection() {
   const mapContainer = useRef(null);
   const mapRef = useRef(null);
+  const dateInputRef = useRef(null);
 
   /* booking state */
-  const [vehicle,  setVehicle]  = useState("");
-  const [date,     setDate]     = useState("");
-  const [pickup,   setPickup]   = useState("");
-  const [name,     setName]     = useState("");
-  const [phone,    setPhone]    = useState("");
-  const [bookErr,  setBookErr]  = useState("");
+  const [vehicle, setVehicle] = useState("");
+  const [date, setDate] = useState("");
+  const [pickup, setPickup] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [bookErr, setBookErr] = useState("");
 
-  const handleName  = (e) => setName(e.target.value.replace(/[^a-zA-Z\s]/g, ""));
+  const handleName = (e) => setName(e.target.value.replace(/[^a-zA-Z\s]/g, ""));
   const handlePhone = (e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10));
 
+  /* Force open native calendar on wrapper click */
+  const handleDateFieldClick = () => {
+    if (dateInputRef.current) {
+      if (typeof dateInputRef.current.showPicker === "function") {
+        dateInputRef.current.showPicker();
+      } else {
+        dateInputRef.current.focus();
+      }
+    }
+  };
+
   const handleBook = () => {
-    if (!vehicle)        { setBookErr("Please choose a vehicle.");               return; }
-    if (!date)           { setBookErr("Please pick a date.");                    return; }
-    if (!pickup)         { setBookErr("Please select a pick-up location.");      return; }
-    if (!name.trim())    { setBookErr("Please enter your name.");                return; }
-    if (phone.length < 10) { setBookErr("Please enter a valid 10-digit number."); return; }
+    if (!vehicle) {
+      setBookErr("Please choose a vehicle.");
+      return;
+    }
+    if (!date) {
+      setBookErr("Please pick a date.");
+      return;
+    }
+    if (!pickup) {
+      setBookErr("Please select a pick-up location.");
+      return;
+    }
+    if (!name.trim()) {
+      setBookErr("Please enter your name.");
+      return;
+    }
+    if (phone.length < 10) {
+      setBookErr("Please enter a valid 10-digit number.");
+      return;
+    }
     setBookErr("");
     const msg = [
       "Hi, I'd like to check availability for a self-drive car rental.",
@@ -239,11 +287,20 @@ export default function HeroSection() {
 
       const layers = map.getStyle().layers;
       layers.forEach((layer) => {
-        if (layer.type === "line" && (layer.id.includes("road") || layer.id.includes("highway") || layer.id.includes("link"))) {
+        if (
+          layer.type === "line" &&
+          (layer.id.includes("road") ||
+            layer.id.includes("highway") ||
+            layer.id.includes("link"))
+        ) {
           try {
             map.setPaintProperty(layer.id, "line-opacity", 0.95);
             const originalColor = map.getPaintProperty(layer.id, "line-color");
-            if (originalColor && typeof originalColor === "string" && originalColor.startsWith("#")) {
+            if (
+              originalColor &&
+              typeof originalColor === "string" &&
+              originalColor.startsWith("#")
+            ) {
               map.setPaintProperty(layer.id, "line-color", "#e2e8f0");
             }
           } catch (e) {
@@ -254,11 +311,14 @@ export default function HeroSection() {
 
       // Initialize Live Vehicles with random starting locations
       vehicleStates = INITIAL_FLEET.map((cfg) => {
-        const randomFromKey = PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
+        const randomFromKey =
+          PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
 
-        let randomToKey = PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
+        let randomToKey =
+          PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
         while (randomToKey === randomFromKey) {
-          randomToKey = PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
+          randomToKey =
+            PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
         }
 
         const marker = new maplibregl.Marker({
@@ -290,7 +350,8 @@ export default function HeroSection() {
 
         let nextSpotKey = vehicle.destinationLocationKey;
         while (nextSpotKey === vehicle.destinationLocationKey) {
-          nextSpotKey = PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
+          nextSpotKey =
+            PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
         }
 
         const fromCoords = PLACES[vehicle.destinationLocationKey];
@@ -326,19 +387,26 @@ export default function HeroSection() {
 
         vehicleStates.forEach((v) => {
           if (v.state === "moving" && v.route) {
-            const { coords: currentPos, speedScale } = getLngLatAndSpeedScaleAtDistance(v.route, v.distanceTravelled);
+            const { coords: currentPos, speedScale } =
+              getLngLatAndSpeedScaleAtDistance(v.route, v.distanceTravelled);
 
             v.smoothedSpeedScale += (speedScale - v.smoothedSpeedScale) * 0.08;
 
             const kmPerMs = (v.baseSpeed * v.smoothedSpeedScale) / 1000;
             v.distanceTravelled += deltaMs * kmPerMs;
 
-            const lookaheadResult = getLngLatAndSpeedScaleAtDistance(v.route, v.distanceTravelled + 0.08);
+            const lookaheadResult = getLngLatAndSpeedScaleAtDistance(
+              v.route,
+              v.distanceTravelled + 0.08
+            );
             const lookaheadPos = lookaheadResult.coords;
 
             v.marker.setLngLat(snapToPixel(map, currentPos));
 
-            if (currentPos[0] !== lookaheadPos[0] || currentPos[1] !== lookaheadPos[1]) {
+            if (
+              currentPos[0] !== lookaheadPos[0] ||
+              currentPos[1] !== lookaheadPos[1]
+            ) {
               v.marker.setRotation(bearing(currentPos, lookaheadPos));
             }
 
@@ -408,7 +476,6 @@ export default function HeroSection() {
           color: var(--ink);
         }
 
-        /* Prevent WebGL border artifacts by slightly bleeding map outside boundaries */
         .hero-map {
           position: absolute;
           top: -2px;
@@ -431,7 +498,6 @@ export default function HeroSection() {
         .map-car--booked { color: #000000; }     
         .map-car--available { color: #94a3b8; }  
 
-        /* High-Definition Seamless Bottom Fade with pure white base */
         .hero-bottom-fade {
           position: absolute;
           bottom: -2px; 
@@ -567,6 +633,7 @@ export default function HeroSection() {
         }
 
         .booking-field {
+          position: relative;
           min-width: 0;
           height: 56px;
           display: flex;
@@ -578,7 +645,18 @@ export default function HeroSection() {
           background: transparent;
           border: 0;
           border-right: 1px solid rgba(0, 0, 0, 0.08);
+          border-radius: 8px;
           cursor: pointer;
+          transition: background-color 0.15s ease;
+        }
+
+        .booking-field:hover {
+          background-color: rgba(0, 0, 0, 0.025);
+        }
+
+        .booking-field:focus-within {
+          background-color: #ffffff;
+          box-shadow: inset 0 0 0 1.5px var(--ink);
         }
 
         .field-icon {
@@ -590,44 +668,78 @@ export default function HeroSection() {
           background: var(--accent-soft);
           color: var(--accent);
           border-radius: 50%;
+          pointer-events: none;
         }
 
-        .field-copy { min-width: 0; flex: 1; }
-        .field-label, .field-value { display: block; }
+        .field-copy { 
+          min-width: 0; 
+          flex: 1; 
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
 
         .field-label {
           margin-bottom: 1px;
           font-size: 11.5px;
           font-weight: 600;
+          pointer-events: none;
         }
 
-        .field-value {
-          overflow: hidden;
-          color: var(--muted);
-          font-size: 11.5px;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-
-        /* make real inputs/selects look identical to the original field-value */
         .booking-field input,
         .booking-field select {
           all: unset;
           display: block;
           width: 100%;
           font-size: 11.5px;
-          color: var(--muted);
+          color: var(--ink);
           font-family: inherit;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          cursor: pointer;
           box-sizing: border-box;
+          cursor: pointer;
         }
-        .booking-field input::placeholder { color: var(--muted); }
+
+        .booking-field select {
+          padding-right: 18px;
+        }
+
+        .booking-field select option {
+          background: #ffffff;
+          color: #000000;
+        }
+
+        .booking-field input[type="text"],
+        .booking-field input[type="tel"] {
+          cursor: text;
+        }
+
+        .booking-field input::placeholder { 
+          color: var(--muted); 
+          opacity: 0.8;
+        }
+
         .booking-field input[type="date"]::-webkit-calendar-picker-indicator {
-          opacity: 0.45; cursor: pointer;
+          opacity: 0.45; 
+          cursor: pointer;
         }
+
+        .select-chevron {
+          position: absolute;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          pointer-events: none;
+          color: var(--muted);
+          transition: transform 0.15s ease;
+        }
+
+        .booking-field:focus-within .select-chevron {
+          color: var(--ink);
+          transform: translateY(-50%) rotate(180deg);
+        }
+
         .booking-error {
           margin-top: 6px;
           padding: 5px 12px;
@@ -664,7 +776,6 @@ export default function HeroSection() {
           box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
 
-        /* Responsive Scroll down animation indicator styles */
         .scroll-indicator {
           position: absolute;
           bottom: 2.5%;
@@ -699,20 +810,38 @@ export default function HeroSection() {
           .hero-copy { max-width: 34vw; }
         }
 
-        /* ---------- Tablet landscape ---------- */
+        /* ---------- Tablet Landscape / Portrait (Proportional Grid Sizing Fix) ---------- */
         @media (max-width: 1100px) {
           .booking-shell { 
-            max-width: 1100px; 
-            bottom: 10%;
-            transform: translateY(10px);
+            max-width: 1000px; 
+            bottom: 8%;
+            transform: translateY(0);
           }
+
+          /* Balanced 3-column symmetrical top layout, button spans bottom */
           .booking-bar {
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
+            gap: 8px;
+            padding: 10px;
           }
-          .booking-field { border-right: 0; }
-          .find-car-button { grid-column: 1 / -1; margin: 4px 0 0; }
-          .hero-copy { max-width: 42vw; }
+
+          .booking-field {
+            border-right: 1px solid rgba(0, 0, 0, 0.06);
+            background: rgba(255, 255, 255, 0.6);
+          }
+
+          .booking-field:nth-child(3),
+          .booking-field:nth-child(5) {
+            border-right: 0; /* Remove borders at line breaks for clean symmetry */
+          }
+
+          .find-car-button {
+            grid-column: 1 / -1;
+            margin: 4px 0 0 0;
+            height: 50px;
+          }
+
+          .hero-copy { max-width: 45vw; }
 
           .hero-content {
             background: linear-gradient(
@@ -725,13 +854,26 @@ export default function HeroSection() {
           }
         }
 
-        /* ---------- Tablet portrait / large phones ---------- */
-        @media (max-width: 900px) {
-          .hero-copy { max-width: 56vw; }
-          .hero-content { padding-left: 8%; }
+        /* ---------- Tablet Portrait / Foldables ---------- */
+        @media (max-width: 850px) {
+          /* Clean 2-column symmetrical grid for mid-size tablets */
+          .booking-bar {
+            grid-template-columns: repeat(2, 1fr);
+          }
+
+          .booking-field {
+            border-right: 1px solid rgba(0, 0, 0, 0.06);
+          }
+
+          .booking-field:nth-child(2n) {
+            border-right: 0;
+          }
+
+          .hero-copy { max-width: 58vw; }
+          .hero-content { padding-left: 6%; }
         }
 
-        /* ---------- Mobile (Layout Parameters Intact) ---------- */
+        /* ---------- Mobile ---------- */
         @media (max-width: 720px) {
           .hero {
             min-height: 100vh;
@@ -748,7 +890,6 @@ export default function HeroSection() {
             height: 100%;
             z-index: 1;
             opacity: 0.3;
-            order: unset;
           }
 
           .hero-content {
@@ -763,11 +904,6 @@ export default function HeroSection() {
             padding: 40px 24px 12px;
             margin-top: auto; 
             background: transparent;
-            order: unset;
-          }
-
-          .hero::before {
-            display: none;
           }
 
           .hero-copy {
@@ -798,22 +934,23 @@ export default function HeroSection() {
             left: auto;
             right: auto;
             bottom: auto;
-            transform: translateY(10px); 
             max-width: 100%;
             width: 100%;
             margin: 0;
             padding: 0 24px 40px;
-            order: unset;
           }
 
           .booking-bar {
             grid-template-columns: 1fr;
+            gap: 0;
+            padding: 6px 8px;
           }
 
           .booking-field {
             padding: 0 10px;
             border-right: 0;
             border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            background: transparent;
           }
 
           .booking-field:last-of-type {
@@ -825,7 +962,6 @@ export default function HeroSection() {
             margin: 8px 0 0;
           }
 
-          /* Persistent scroll indicator formatted for mobile devices */
           .scroll-indicator {
             position: relative;
             bottom: auto;
@@ -844,9 +980,7 @@ export default function HeroSection() {
 
         /* ---------- Small phones ---------- */
         @media (max-width: 420px) {
-          .hero-content {
-            padding: 32px 16px 12px;
-          }
+          .hero-content { padding: 32px 16px 12px; }
           .booking-shell { padding: 0 16px 32px; }
           .booking-field { height: 52px; gap: 8px; }
           .field-icon { flex-basis: 28px; width: 28px; height: 28px; }
@@ -874,18 +1008,30 @@ export default function HeroSection() {
 
             <div className="feature-row">
               <div className="feature-chip">
-                <span className="feature-icon"><Car size={16} strokeWidth={2.2} /></span>
-                <div className="feature-text">Wide Range <span>of Cars</span></div>
+                <span className="feature-icon">
+                  <Car size={16} strokeWidth={2.2} />
+                </span>
+                <div className="feature-text">
+                  Wide Range <span>of Cars</span>
+                </div>
               </div>
 
               <div className="feature-chip">
-                <span className="feature-icon"><ShieldCheck size={16} strokeWidth={2.2} /></span>
-                <div className="feature-text">Insurance <span>Included</span></div>
+                <span className="feature-icon">
+                  <ShieldCheck size={16} strokeWidth={2.2} />
+                </span>
+                <div className="feature-text">
+                  Insurance <span>Included</span>
+                </div>
               </div>
 
               <div className="feature-chip">
-                <span className="feature-icon"><Headset size={16} strokeWidth={2.2} /></span>
-                <div className="feature-text">24x7 <span>Support</span></div>
+                <span className="feature-icon">
+                  <Headset size={16} strokeWidth={2.2} />
+                </span>
+                <div className="feature-text">
+                  24x7 <span>Support</span>
+                </div>
               </div>
             </div>
           </div>
@@ -893,59 +1039,110 @@ export default function HeroSection() {
 
         <div className="booking-shell">
           <div className="booking-bar">
-
-            {/* Vehicle */}
+            {/* Vehicle Dropdown */}
             <div className="booking-field">
-              <span className="field-icon"><CarFront size={18} strokeWidth={1.8} /></span>
+              <span className="field-icon">
+                <CarFront size={18} strokeWidth={1.8} />
+              </span>
               <span className="field-copy">
                 <span className="field-label">Choose Vehicle</span>
-                <select value={vehicle} onChange={(e) => setVehicle(e.target.value)}>
-                  <option value="" disabled>Select a vehicle</option>
-                  {vehicles.map((v) => <option key={v.id} value={v.name}>{v.name}</option>)}
+                <select
+                  value={vehicle}
+                  onChange={(e) => setVehicle(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Select a vehicle
+                  </option>
+                  {vehicles.map((v) => (
+                    <option key={v.id} value={v.name}>
+                      {v.name}
+                    </option>
+                  ))}
                 </select>
               </span>
+              <ChevronDown size={14} className="select-chevron" />
             </div>
 
-            {/* Date */}
-            <div className="booking-field">
-              <span className="field-icon"><CalendarDays size={18} strokeWidth={1.8} /></span>
+            {/* Date Input with Full Box Trigger */}
+            <div className="booking-field" onClick={handleDateFieldClick}>
+              <span className="field-icon">
+                <CalendarDays size={18} strokeWidth={1.8} />
+              </span>
               <span className="field-copy">
                 <span className="field-label">Pick-up Date</span>
-                <input type="date" value={date} min={TODAY} onChange={(e) => setDate(e.target.value)} />
+                <input
+                  ref={dateInputRef}
+                  type="date"
+                  value={date}
+                  min={TODAY}
+                  onChange={(e) => setDate(e.target.value)}
+                />
               </span>
             </div>
 
-            {/* Location */}
+            {/* Location Dropdown */}
             <div className="booking-field">
-              <span className="field-icon"><MapPin size={18} strokeWidth={1.8} /></span>
+              <span className="field-icon">
+                <MapPin size={18} strokeWidth={1.8} />
+              </span>
               <span className="field-copy">
                 <span className="field-label">Pick-up Location</span>
-                <select value={pickup} onChange={(e) => setPickup(e.target.value)}>
-                  <option value="" disabled>Choose location</option>
-                  {LOCATIONS.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
+                <select
+                  value={pickup}
+                  onChange={(e) => setPickup(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Choose location
+                  </option>
+                  {LOCATIONS.map((loc) => (
+                    <option key={loc} value={loc}>
+                      {loc}
+                    </option>
+                  ))}
                 </select>
               </span>
+              <ChevronDown size={14} className="select-chevron" />
             </div>
 
-            {/* Name */}
+            {/* Name Input */}
             <div className="booking-field">
-              <span className="field-icon"><User size={18} strokeWidth={1.8} /></span>
+              <span className="field-icon">
+                <User size={18} strokeWidth={1.8} />
+              </span>
               <span className="field-copy">
                 <span className="field-label">Your Name</span>
-                <input type="text" value={name} onChange={handleName} placeholder="Enter your name" autoComplete="name" />
+                <input
+                  type="text"
+                  value={name}
+                  onChange={handleName}
+                  placeholder="Enter your name"
+                  autoComplete="name"
+                />
               </span>
             </div>
 
-            {/* Phone */}
+            {/* Phone Input */}
             <div className="booking-field">
-              <span className="field-icon"><Phone size={18} strokeWidth={1.8} /></span>
+              <span className="field-icon">
+                <Phone size={18} strokeWidth={1.8} />
+              </span>
               <span className="field-copy">
                 <span className="field-label">Phone Number</span>
-                <input type="tel" value={phone} onChange={handlePhone} placeholder="10-digit number" inputMode="numeric" />
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={handlePhone}
+                  placeholder="10-digit number"
+                  inputMode="numeric"
+                />
               </span>
             </div>
 
-            <button className="find-car-button" type="button" onClick={handleBook}>
+            <button
+              className="find-car-button"
+              type="button"
+              onClick={handleBook}
+            >
               Check Availability
               <ArrowRight size={17} />
             </button>
@@ -954,7 +1151,7 @@ export default function HeroSection() {
           {bookErr && <div className="booking-error">{bookErr}</div>}
         </div>
 
-        {/* Minimal Scroll Down Animation Indicator */}
+        {/* Scroll Down Indicator */}
         <div className="scroll-indicator">
           <span>Our Cars</span>
           <ChevronDown size={14} className="bounce-arrow" strokeWidth={2.5} />
