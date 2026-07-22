@@ -22,7 +22,8 @@ export default function Footer({ onOpenPage }) {
 
   return (
     <footer className="bg-white text-slate-600 border-t border-slate-100 py-10 font-sans" role="contentinfo">
-      <div className="max-w-[1180px] mx-auto px-6">
+      {/* Increased max-width to 1270px (+30px on both sides) */}
+      <div className="max-w-[1270px] mx-auto px-4 sm:px-6">
 
         {/* Main Footer Grid */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-8 pb-8 border-b border-slate-100">
@@ -54,11 +55,11 @@ export default function Footer({ onOpenPage }) {
 
             {/* Concise Hyperlinked Tagline for SEO */}
             <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
-              Premimun <a href="#vehicles" className="text-slate-700 font-medium hover:underline">self drive cars in Visakhapatnam</a> by Padma Priya Enterprises.
+              Premium <a href="#vehicles" className="text-slate-700 font-medium hover:underline">self drive cars in Visakhapatnam</a> by Padma Priya Enterprises.
             </p>
           </div>
 
-          {/* Column 1: Services (SEO Backlinks) */}
+          {/* Column 1: Services */}
           <nav aria-label="Services" className="col-span-1">
             <h2 className="text-[11px] font-bold text-slate-900 uppercase tracking-wider mb-3">
               Services
@@ -91,7 +92,7 @@ export default function Footer({ onOpenPage }) {
           </nav>
 
           {/* Column 3: Contact */}
-          <address className="not-italic col-span-2 md:col-span-1 border-t md:border-none border-slate-100 pt-6 md:pt-0 space-y-3">
+          <address className="not-italic col-span-2 sm:col-span-1 md:col-span-1 space-y-3">
             <h2 className="text-[11px] font-bold text-slate-900 uppercase tracking-wider mb-3">
               Contact
             </h2>

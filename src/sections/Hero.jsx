@@ -162,20 +162,14 @@ function snapToPixel(map, lngLat) {
   return [snappedLngLat.lng, snappedLngLat.lat];
 }
 
+const CAR_SVGS = ["/car1.svg", "/car2.svg", "/car3.svg"];
+let _carIdx = 0;
+
 function buildCarMarkerElement(status) {
   const el = document.createElement("div");
   el.className = `map-car map-car--${status}`;
-  el.innerHTML = `
-    <svg viewBox="0 0 24 40" width="100%" height="100%" shape-rendering="geometricPrecision">
-      <ellipse cx="12" cy="34" rx="7" ry="2.4" fill="#000000" opacity="0.18"/>
-      <rect x="4" y="5" width="16" height="29" rx="7.5" fill="currentColor"/>
-      <rect x="6.5" y="10" width="11" height="8.5" rx="2.2" fill="#ffffff" opacity="0.95"/>
-      <path d="M8 11.5 L12 11.5" stroke="#e2e8f0" stroke-width="1" opacity="0.9" stroke-linecap="round"/>
-      <circle cx="12" cy="26" r="2.2" fill="#ffffff" opacity="0.8"/>
-      <path d="M6 16 L18 16" stroke="#ffffff" stroke-width="1" opacity="0.3" stroke-linecap="round" />
-      <path d="M8 7.5 C 10 6.5, 14 6.5, 16 7.5" stroke="#ffffff" stroke-width="0.85" opacity="0.4" stroke-linecap="round" fill="none" />
-    </svg>
-  `;
+  const src = CAR_SVGS[_carIdx++ % CAR_SVGS.length];
+  el.innerHTML = `<img src="${src}" width="100%" height="100%" draggable="false" alt="" />`;
   return el;
 }
 
@@ -488,15 +482,26 @@ export default function HeroSection() {
         .hero-map .maplibregl-canvas { outline: none; }
 
         .map-car {
-          width: 20px;
-          height: 33px;
+          width: 58px;
+          height: 34px;
           pointer-events: none;
           will-change: transform;
           transition: transform 0.08s linear;
         }
 
-        .map-car--booked { color: #000000; }     
-        .map-car--available { color: #94a3b8; }  
+        /* SVGs face right (east). Rotate image -90° inside the marker so
+           the car nose points north when MapLibre bearing = 0. */
+        .map-car img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          transform: rotate(-90deg);
+          transform-origin: center center;
+          display: block;
+        }
+
+        .map-car--booked  img { opacity: 1; }
+        .map-car--available img { opacity: 0.6; filter: grayscale(30%); }
 
         .hero-bottom-fade {
           position: absolute;
