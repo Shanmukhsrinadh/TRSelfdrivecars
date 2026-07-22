@@ -1,65 +1,59 @@
 const REVIEWS = [
   {
     name: 'Priya Sharma',
-    city: 'Mumbai',
+    city: 'Visakhapatnam',
     avatar: 'PS',
-    avatarColor: 'from-pink-400 to-rose-500',
-    car: 'Hyundai Creta SX 2022',
+    car: 'Hyundai Creta SX',
     rating: 5,
-    text: "Mohan Cars completely changed my mind about buying used cars. The paperwork took less than a day, and they delivered it to my doorstep. Zero stress.",
+    text: "Booking was instant and the car was exactly as described. Picked it up, drove to Araku, returned — zero hassle from start to finish.",
   },
   {
     name: 'Arjun Nair',
-    city: 'Bangalore',
+    city: 'Visakhapatnam',
     avatar: 'AN',
-    avatarColor: 'from-sky-400 to-indigo-500',
-    car: 'Toyota Fortuner 2021',
+    car: 'Toyota Fortuner',
     rating: 5,
-    text: "Showed me the full inspection report before I even asked. No pressure, no upselling.",
+    text: "Best self-drive experience in Vizag. Clean car, transparent pricing, and they responded on WhatsApp within minutes.",
   },
   {
     name: 'Sneha Kulkarni',
-    city: 'Pune',
+    city: 'Visakhapatnam',
     avatar: 'SK',
-    avatarColor: 'from-violet-400 to-purple-500',
-    car: 'Maruti Baleno 2022',
+    car: 'Maruti Baleno',
     rating: 5,
-    text: "Got a great EMI deal and drove home the same week!",
+    text: "Used it for a week-long trip. The car was well-maintained and the support team was always reachable. Would book again.",
   },
   {
     name: 'Rahul Desai',
-    city: 'Delhi',
+    city: 'Visakhapatnam',
     avatar: 'RD',
-    avatarColor: 'from-emerald-400 to-teal-500',
-    car: 'BMW 3 Series 2020',
+    car: 'Tata Nexon',
     rating: 5,
-    text: "Pricing was fair and the process was completely hassle-free.",
+    text: "Very fair pricing compared to others in Vizag. No hidden charges, everything was clear upfront.",
   },
   {
     name: 'Meera Iyer',
-    city: 'Chennai',
+    city: 'Visakhapatnam',
     avatar: 'MI',
-    avatarColor: 'from-amber-400 to-orange-500',
-    car: 'Tata Nexon EV 2023',
+    car: 'Maruti Fronx',
     rating: 5,
-    text: "Felt like advice from a friend, not a salesperson.",
+    text: "Drove to Rushikonda and RK Beach over the weekend. The car was spotless and fuel-efficient. Great service.",
   },
   {
     name: 'Vikram Joshi',
-    city: 'Hyderabad',
+    city: 'Visakhapatnam',
     avatar: 'VJ',
-    avatarColor: 'from-cyan-400 to-sky-500',
-    car: 'Kia Seltos 2022',
+    car: 'Kia Seltos',
     rating: 5,
-    text: "Entire journey was digital and smooth.",
+    text: "Smooth pickup, no paperwork drama. The whole process felt professional. Highly recommend for outstation trips.",
   },
 ];
 
 function Stars({ count = 5 }) {
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-0.5">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="w-3 h-3 bg-yellow-400 rounded-full" />
+        <span key={i} className="text-[#0F172A] text-[11px] leading-none">★</span>
       ))}
     </div>
   );
@@ -67,29 +61,20 @@ function Stars({ count = 5 }) {
 
 function ReviewCard({ review }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm 
-                    hover:shadow-xl hover:-translate-y-1 hover:scale-[1.02]
-                    transition-all duration-300">
-
+    <div className="bg-white border border-gray-100 rounded-2xl p-5 hover:border-gray-200 hover:shadow-sm transition-all duration-300">
       <Stars count={review.rating} />
 
-      <p className="text-gray-700 text-sm mt-3 mb-4 leading-relaxed">
+      <p className="text-[#374151] text-sm mt-3 mb-5 leading-relaxed">
         "{review.text}"
       </p>
 
-      <div className="flex items-center gap-3 pt-3 border-t border-gray-100">
-        <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${review.avatarColor}
-                        flex items-center justify-center text-white text-xs font-bold`}>
+      <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+        <div className="w-8 h-8 rounded-full bg-[#0F172A] flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0">
           {review.avatar}
         </div>
-
         <div>
-          <p className="text-gray-900 text-sm font-semibold">
-            {review.name}
-          </p>
-          <p className="text-gray-500 text-xs">
-            {review.city} · {review.car}
-          </p>
+          <p className="text-[#0F172A] text-sm font-semibold leading-none">{review.name}</p>
+          <p className="text-[#94A3B8] text-xs mt-0.5">{review.city} · {review.car}</p>
         </div>
       </div>
     </div>
@@ -98,8 +83,8 @@ function ReviewCard({ review }) {
 
 function Column({ data, speed }) {
   return (
-    <div className="overflow-hidden h-[500px] relative mask-fade">
-      <div className={`flex flex-col gap-5 ${speed}`}>
+    <div className="overflow-hidden h-[520px] relative mask-fade">
+      <div className={`flex flex-col gap-4 ${speed}`}>
         {[...data, ...data].map((review, i) => (
           <ReviewCard key={i} review={review} />
         ))}
@@ -116,38 +101,28 @@ export default function Testimonials() {
   return (
     <section className="py-20 bg-white overflow-hidden">
 
-      {/* Header */}
       <div className="text-center mb-14 px-4">
-        <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest">
+        <p className="text-xs font-semibold text-[#94A3B8] uppercase tracking-widest mb-3">
           Testimonials
         </p>
-
-        <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mt-2">
-          What our users say
+        <h2 className="text-3xl sm:text-4xl font-black text-[#0F172A]">
+          What our customers say
         </h2>
-
-        <p className="text-gray-600 mt-3 max-w-md mx-auto">
-          Discover how thousands of teams streamline their operations.
+        <p className="text-[#64748B] text-sm mt-3 max-w-sm mx-auto leading-relaxed">
+          Real reviews from people who've driven with us across Visakhapatnam.
         </p>
       </div>
 
-      {/* Columns */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4">
-
-        {/* Mobile = 1 */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 px-4">
         <Column data={COLUMN_1} speed="animate-slow" />
-
-        {/* Tablet = 2 */}
         <div className="hidden sm:block">
           <Column data={COLUMN_2} speed="animate-medium" />
         </div>
-
-        {/* Desktop = 3 */}
         <div className="hidden md:block">
           <Column data={COLUMN_3} speed="animate-fast" />
         </div>
-
       </div>
+
     </section>
   );
 }

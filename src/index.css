@@ -89,8 +89,8 @@
       animation: scrollUp 18s linear infinite;
     }
 
-    .ma {
-      mask-image: sk-fadelinear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+    .mask-fade {
+      mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
       -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
     }
 

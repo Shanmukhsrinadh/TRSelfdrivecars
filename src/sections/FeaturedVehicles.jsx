@@ -31,7 +31,7 @@ export default function FeaturedVehicles({ onSelectVehicle }) {
         {/* HEADER */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <p className="text-[#1E3A8A] text-xs tracking-[0.25em] uppercase font-semibold mb-3">
+            <p className="text-[#94A3B8] text-xs tracking-[0.25em] uppercase font-semibold mb-3">
               Our Fleet
             </p>
 

@@ -29,13 +29,13 @@ export default function Navbar() {
   const isMobile = screenWidth <= 760
   const isSmallMobile = screenWidth <= 520
 
-  const phoneNumber = "917702102097"
+  const phoneNumber = "919550563283"
 
   const links = [
-    { name: 'Our Fleet', href: '#fleet' },
-    { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Requirements', href: '#requirements' },
+    { name: 'Our Fleet', href: '#vehicles' },
+    { name: 'How It Works', href: '#services' },
     { name: 'About Us', href: '#about-us' },
+    { name: 'Requirements', href: '#requirements' },
   ]
 
   const morphTransition = 'all 0.65s cubic-bezier(0.25, 1, 0.5, 1)'
@@ -60,7 +60,7 @@ export default function Navbar() {
       : (isMobile ? '0 10px' : '0 14px'),
     borderRadius: atHero ? 0 : 999,
 
-    // The "Chameleon Lens" effect: Lower opacity white + high saturation bleed
+    // The "Chameleon Lens" effect
     background: atHero ? 'transparent' : 'rgba(255, 255, 255, 0.78)',
     borderBottom: atHero ? '1px solid transparent' : '1px solid rgba(0, 0, 0, 0.05)',
     borderLeft: atHero ? 'none' : '1px solid rgba(0, 0, 0, 0.05)',
@@ -68,7 +68,6 @@ export default function Navbar() {
     borderTop: atHero ? 'none' : '1px solid rgba(0, 0, 0, 0.05)',
     boxShadow: atHero ? 'none' : '0 8px 32px rgba(15, 23, 42, 0.04)',
 
-    // High saturation brings out the underlying section colors subtly through the glass
     backdropFilter: atHero ? 'none' : 'blur(20px) saturate(190%)',
     WebkitBackdropFilter: atHero ? 'none' : 'blur(20px) saturate(190%)',
 
@@ -86,7 +85,7 @@ export default function Navbar() {
             width: isSmallMobile ? 32 : 38,
             height: isSmallMobile ? 32 : 38,
             borderRadius: '50%',
-            border: '1.5px solid #1F2937',
+            border: '1.5px solid #000000',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -96,7 +95,7 @@ export default function Navbar() {
             <span style={{ 
               fontWeight: 600, 
               fontSize: isSmallMobile ? 14 : 15, 
-              color: '#1F2937', 
+              color: '#000000', 
               fontFamily: 'var(--font-display), sans-serif',
               transition: textTransition 
             }}>T</span>
@@ -106,7 +105,7 @@ export default function Navbar() {
               fontWeight: 700,
               fontSize: isSmallMobile ? 12 : (isTablet ? 13 : 14),
               letterSpacing: atHero ? '0.22em' : '0.15em',
-              color: '#1F2937',
+              color: '#000000',
               fontFamily: 'var(--font-display), sans-serif',
               whiteSpace: 'nowrap',
               transition: textTransition
@@ -117,7 +116,7 @@ export default function Navbar() {
               fontSize: isSmallMobile ? 8 : 9,
               fontWeight: 500,
               letterSpacing: '0.3em',
-              color: '#94A3B8',
+              color: '#64748B',
               whiteSpace: 'nowrap',
               transition: textTransition
             }}>
@@ -150,7 +149,7 @@ export default function Navbar() {
               }}
               onMouseEnter={e => {
                 e.target.style.background = 'rgba(0,0,0,0.04)';
-                e.target.style.color = '#1F2937';
+                e.target.style.color = '#000000';
               }}
               onMouseLeave={e => {
                 e.target.style.background = 'transparent';
@@ -163,7 +162,7 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* RIGHT AREA: Desktop WhatsApp (Perfect Asymmetry & Alignment Fix) */}
+      {/* RIGHT AREA: Desktop WhatsApp */}
       <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', flexShrink: 0 }}>
         {!isMobile && (
           <a 
@@ -184,19 +183,18 @@ export default function Navbar() {
               cursor: 'pointer', 
               whiteSpace: 'nowrap', 
               flexShrink: 0,
-              background: '#1F2937',
+              background: '#000000',
               color: '#FFFFFF',
               border: 'none',
               transition: 'all 0.2s ease',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.background = '#111827';
+              e.currentTarget.style.background = '#262626';
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.background = '#1F2937';
+              e.currentTarget.style.background = '#000000';
             }}
           >
-            {/* Structural flex containers inside the button anchor fix alignment and text centering instantly */}
             <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
               <span style={{ display: 'inline-block', lineHeight: 1 }}>WhatsApp</span>
@@ -211,7 +209,7 @@ export default function Navbar() {
               width: 38, height: 38, borderRadius: '50%', 
               border: '1px solid rgba(0,0,0,0.06)', 
               background: 'rgba(0,0,0,0.03)', 
-              color: '#1F2937', 
+              color: '#000000', 
               display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0,
               transition: morphTransition
             }}
@@ -240,7 +238,7 @@ export default function Navbar() {
           transition: 'opacity .35s cubic-bezier(0.2, 1, 0.2, 1), transform .35s cubic-bezier(0.2, 1, 0.2, 1), top 0.6s cubic-bezier(0.2, 1, 0.2, 1)',
         }}>
           {links.map((link) => (
-            <a key={link.name} href={link.href} style={{ textDecoration: 'none', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', color: '#0F172A', padding: '12px 10px', fontSize: 14.5, fontWeight: 500, fontFamily: 'Inter,sans-serif', cursor: 'pointer', borderRadius: 12, transition: 'all .2s ease', display: 'block', borderBottom: '1px solid rgba(0,0,0,0.03)' }}
+            <a key={link.name} href={link.href} style={{ textDecoration: 'none', width: '100%', textAlign: 'left', background: 'transparent', border: 'none', color: '#000000', padding: '12px 10px', fontSize: 14.5, fontWeight: 500, fontFamily: 'Inter,sans-serif', cursor: 'pointer', borderRadius: 12, transition: 'all .2s ease', display: 'block', borderBottom: '1px solid rgba(0,0,0,0.03)' }}
               onClick={() => setMobileMenu(false)}
               onMouseEnter={e => e.target.style.background = 'rgba(0,0,0,0.03)'}
               onMouseLeave={e => e.target.style.background = 'transparent'}>
@@ -249,7 +247,7 @@ export default function Navbar() {
           ))}
           <div style={{ height: '8px' }} />
 
-          <a href={`https://wa.me/${phoneNumber}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', width: '100%', height: 44, borderRadius: 999, border: 'none', background: '#1F2937', color: '#fff', fontSize: 14, fontWeight: 600, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontFamily: 'Inter,sans-serif' }}>
+          <a href={`https://wa.me/${phoneNumber}`} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', width: '100%', height: 44, borderRadius: 999, border: 'none', background: '#000000', color: '#fff', fontSize: 14, fontWeight: 600, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontFamily: 'Inter,sans-serif' }}>
             <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
               <span style={{ display: 'inline-block', lineHeight: 1 }}>Chat on WhatsApp</span>

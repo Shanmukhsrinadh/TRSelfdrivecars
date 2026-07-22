@@ -53,7 +53,7 @@ export default function Services() {
   const [activeMobileIndex, setActiveMobileIndex] = useState(0);
 
   const handleBook = (name) => {
-    window.open(`https://wa.me/917702102097?text=${encodeURIComponent(`Hi, I want to book a vehicle for ${name}.`)}`, '_blank');
+    window.open(`https://wa.me/919550563283?text=${encodeURIComponent(`Hi, I want to book a vehicle for ${name}.`)}`, '_blank');
   };
 
   const handleButtonMouseEnter = (e) => {
@@ -102,9 +102,9 @@ export default function Services() {
 
   const DesktopCard = ({ item, className = "" }) => (
     <div className={`group bg-white border border-gray-300 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:border-[#0F172A] hover:ring-1 hover:ring-[#0F172A] hover:bg-white/40 hover:backdrop-blur-md hover:shadow-sm overflow-hidden h-full ${className}`}>
-      <div className="overflow-hidden">
+      <div>
         <h3 className="text-sm font-bold text-[#0F172A] mb-1.5 tracking-tight">{item.title}</h3>
-        <p className="text-[#64748B] text-xs leading-relaxed line-clamp-3 lg:line-clamp-none">
+        <p className="text-[#64748B] text-xs leading-relaxed">
           {item.description}
         </p>
       </div>
@@ -113,12 +113,12 @@ export default function Services() {
   );
 
   return (
-    <section id="services" className="w-full lg:h-screen bg-gray-50/50 border-t border-gray-100 py-8 lg:py-0 flex flex-col justify-center overflow-x-hidden">
-      <div className="max-w-7xl w-full mx-auto px-6 h-full flex flex-col justify-center py-6">
+    <section id="services" className="w-full bg-gray-50/50 border-t border-gray-100 py-12 lg:py-16 overflow-x-hidden">
+      <div className="max-w-7xl w-full mx-auto px-6">
 
         {/* Section Header */}
-        <div className="mb-6 shrink-0">
-          <p className="text-[#1E3A8A] font-bold text-xs uppercase tracking-widest mb-1">Our Services</p>
+        <div className="mb-8">
+          <p className="text-[#94A3B8] font-bold text-xs uppercase tracking-widest mb-1">Our Services</p>
           <h2 className="text-2xl font-bold text-[#0F172A] tracking-tight mb-1">
             Comprehensive Mobility Services
           </h2>
@@ -127,9 +127,7 @@ export default function Services() {
           </p>
         </div>
 
-        {/* =========================================================================
-            MOBILE & TABLET: Interactive Expanding Accordion Matrix (Hidden on lg)
-            ========================================================================= */}
+        {/* MOBILE & TABLET: Interactive Expanding Accordion Matrix (Hidden on lg) */}
         <div className="flex flex-col gap-2 lg:hidden">
           {services.map((s, idx) => {
             const IconComponent = s.icon;
@@ -148,7 +146,7 @@ export default function Services() {
               >
                 {/* Header Row */}
                 <div className="flex items-center gap-3">
-                  <IconComponent className={`w-4 h-4 shrink-0 ${isOpen ? 'text-[#1E3A8A]' : 'text-[#64748B]'}`} />
+                  <IconComponent className={`w-4 h-4 shrink-0 ${isOpen ? 'text-[#0F172A]' : 'text-[#64748B]'}`} />
                   <span className="text-xs font-semibold text-[#0F172A] tracking-tight">{s.title}</span>
                 </div>
 
@@ -170,34 +168,32 @@ export default function Services() {
           })}
         </div>
 
-        {/* =========================================================================
-            DESKTOP: Asymmetric Staggered Grid Layout (Hidden on mobile/tablet)
-            ========================================================================= */}
-        <div className="hidden lg:flex lg:flex-col lg:gap-4 lg:flex-1 lg:justify-between lg:min-h-0">
+        {/* DESKTOP: Asymmetric Staggered Grid Layout (Hidden on mobile/tablet) */}
+        <div className="hidden lg:flex lg:flex-col lg:gap-4">
 
           {/* Row 1: Split 60/40 */}
-          <div className="grid grid-cols-5 gap-4 flex-1 min-h-0">
-            <div className="col-span-3 min-h-0"><DesktopCard item={services[0]} /></div>
-            <div className="col-span-2 min-h-0"><DesktopCard item={services[1]} /></div>
+          <div className="grid grid-cols-5 gap-4">
+            <div className="col-span-3"><DesktopCard item={services[0]} /></div>
+            <div className="col-span-2"><DesktopCard item={services[1]} /></div>
           </div>
 
           {/* Row 2: Symmetric 3-Card Split */}
-          <div className="grid grid-cols-3 gap-4 flex-1 min-h-0">
+          <div className="grid grid-cols-3 gap-4">
             <div><DesktopCard item={services[2]} /></div>
             <div><DesktopCard item={services[3]} /></div>
             <div><DesktopCard item={services[4]} /></div>
           </div>
 
           {/* Row 3: Inverted 40/60 */}
-          <div className="grid grid-cols-5 gap-4 flex-1 min-h-0">
-            <div className="col-span-2 min-h-0"><DesktopCard item={services[5]} /></div>
-            <div className="col-span-3 min-h-0"><DesktopCard item={services[6]} /></div>
+          <div className="grid grid-cols-5 gap-4">
+            <div className="col-span-2"><DesktopCard item={services[5]} /></div>
+            <div className="col-span-3"><DesktopCard item={services[6]} /></div>
           </div>
 
           {/* Row 4: Final Duo Layout Balance */}
-          <div className="grid grid-cols-12 gap-4 flex-1 min-h-0">
-            <div className="col-span-7 min-h-0"><DesktopCard item={services[7]} /></div>
-            <div className="col-span-5 min-h-0"><DesktopCard item={services[8]} /></div>
+          <div className="grid grid-cols-12 gap-4">
+            <div className="col-span-7"><DesktopCard item={services[7]} /></div>
+            <div className="col-span-5"><DesktopCard item={services[8]} /></div>
           </div>
 
         </div>

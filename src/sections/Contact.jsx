@@ -1,146 +1,161 @@
-import { Phone, MessageCircle, MapPin, Mail, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { IdCard, FileText, Coins, MapPin, ExternalLink, ChevronDown } from "lucide-react";
 
-export default function Contact() {
+export default function PickupRequirements() {
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const faqs = [
+    {
+      q: "What are the timings for vehicle pickup?",
+      a: "Pickups are available from 6:00 AM to 10:00 PM. Please coordinate your arrival at least 30 minutes in advance."
+    },
+    {
+      q: "Is the security deposit refunded instantly?",
+      a: "Yes, the refundable monetary deposit is processed immediately upon returning the vehicle safely."
+    },
+    {
+      q: "Can I extend my ride duration later?",
+      a: "Extensions are subject to availability. Message us via WhatsApp 2 hours before your trip ends."
+    }
+  ];
+
+  const toggleFaq = (index) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
   return (
-    <section id="contact" className="relative overflow-hidden">
+    <section id="requirements" className="bg-white lg:h-screen w-full flex items-center py-16 lg:py-0 px-6 md:px-12 lg:px-24 font-sans text-[#0f172a] select-none">
+      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
 
-      {/* Map background — full section */}
-      <div className="absolute inset-0 z-0">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d950.0218105695968!2d83.3151254!3d17.740527999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a39435dfcbfed87%3A0x693877a980513aa1!2sGirinova%20Car%20Rentals%20%26%20Services!5e0!3m2!1sen!2sin!4v1777102430623!5m2!1sen!2sin"
-          className="w-full h-full border-0 pointer-events-none"
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Girinova Location"
-        />
-      </div>
+        {/* Left Column: Fixed Structural Dimensions (7/12 Cols) */}
+        <div className="lg:col-span-7 flex flex-col justify-between h-[520px]">
 
-      {/* Mobile: solid dark overlay. Desktop: left-to-right fade */}
-      <div
-        className="absolute inset-0 z-10 pointer-events-none bg-gray-950/90 lg:bg-transparent"
-        style={{
-          background: undefined,
-        }}
-      />
-      <div
-        className="absolute inset-0 z-10 pointer-events-none hidden lg:block"
-        style={{
-          background:
-            "linear-gradient(to right, rgba(10,14,26,0.97) 0%, rgba(10,14,26,0.92) 32%, rgba(10,14,26,0.65) 54%, rgba(10,14,26,0.20) 74%, transparent 100%)",
-        }}
-      />
-      {/* Mobile solid overlay */}
-      <div className="absolute inset-0 z-10 pointer-events-none bg-gray-950/88 lg:hidden" />
-
-      {/* Content */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-16 py-16 sm:py-20 lg:py-24">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-0">
-
-          {/* Left — headline + CTAs */}
-          <div className="lg:w-[48%] lg:pr-16">
-            <p className="text-blue-400 text-[10px] font-bold tracking-[0.25em] uppercase mb-4">
-              Book Instantly
-            </p>
-
-            <h2 className="text-3xl sm:text-4xl lg:text-[3.2rem] font-black leading-tight text-white mb-4">
-              Your ride is one
-              <br />
-              <span className="text-blue-400">message away</span>
-            </h2>
-
-            <p className="text-white/55 text-sm leading-relaxed mb-8 max-w-sm">
-              Get in touch today to book your ride, confirm availability, or ask
-              any travel questions. We respond within minutes.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-              <a
-                href="https://wa.me/917702102097?text=Hi%2C%20I%20want%20to%20book%20a%20vehicle"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2.5 bg-green-500 hover:bg-green-400 text-white text-sm font-semibold px-6 py-3.5 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-green-500/40"
-              >
-                <MessageCircle className="w-4 h-4 flex-shrink-0" />
-                Chat on WhatsApp
-              </a>
-              <a
-                href="tel:+917702102097"
-                className="flex items-center justify-center gap-2.5 border border-white/25 hover:border-white/60 text-white text-sm font-semibold px-6 py-3.5 rounded-full transition-all duration-300"
-              >
-                <Phone className="w-4 h-4 flex-shrink-0" />
-                Call +91 770-210-2097
-              </a>
+          {/* Section 1: Requirements (Fixed Height Boundary) */}
+          <div className="h-[250px]">
+            <div className="mb-4">
+              <p className="text-[#94A3B8] text-[11px] font-bold tracking-[0.2em] uppercase mb-1">
+                PROCESS.
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#0f172a]">
+                Pickup Requirements
+              </h2>
             </div>
-          </div>
 
-          {/* Right — location card */}
-          <div className="lg:w-[52%] lg:flex lg:justify-end">
-            <div className="w-full lg:max-w-md bg-gray-900/75 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl">
-
-              {/* Card header */}
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-5">
+            {/* Compact Requirements List */}
+            <div className="space-y-2">
+              <div className="flex items-start gap-3.5 border border-[#e2e8f0] rounded-xl p-3 bg-white shadow-sm">
+                <IdCard className="w-4 h-4 text-[#0f172a] mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-blue-400 text-[10px] font-bold tracking-[0.2em] uppercase mb-1.5">
-                    Actual Location
-                  </p>
-                  <p className="text-white/50 text-xs leading-relaxed max-w-xs">
-                    The map behind shows our pickup and contact location. Open in Maps for directions.
-                  </p>
+                  <h4 className="text-[#0f172a] font-semibold text-xs mb-0.5">Valid Driving License</h4>
+                  <p className="text-[#64748b] text-[11px] leading-relaxed">Original copy must be presented for physical matching.</p>
                 </div>
-                <a
-                  href="https://maps.app.goo.gl/aH4iYWQzd7aYqMbTA"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="self-start sm:self-auto flex-shrink-0 flex items-center gap-1.5 bg-white hover:bg-gray-100 text-gray-900 text-xs font-bold tracking-wide uppercase px-3.5 py-2.5 rounded-xl transition-colors shadow-sm"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  Open in Maps
-                </a>
               </div>
 
-              <div className="h-px bg-white/10 mb-5" />
-
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-4 h-4 text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-white/40 text-[10px] font-semibold uppercase tracking-wider mb-0.5">Location</p>
-                    <p className="text-white text-sm font-medium leading-snug">
-                      Flat No-13, Omkar Towers, Seethammadhaara<br />Visakhapatnam, AP IN
-                    </p>
-                  </div>
+              <div className="flex items-start gap-3.5 border border-[#e2e8f0] rounded-xl p-3 bg-white shadow-sm">
+                <FileText className="w-4 h-4 text-[#0f172a] mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="text-[#0f172a] font-semibold text-xs mb-0.5">Government ID</h4>
+                  <p className="text-[#64748b] text-[11px] leading-relaxed">Valid proof of identity required (e.g., ID card).</p>
                 </div>
+              </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-4 h-4 text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-white/40 text-[10px] font-semibold uppercase tracking-wider mb-0.5">Phone</p>
-                    <a href="tel:+917702102097" className="text-white text-sm font-medium hover:text-blue-400 transition-colors">
-                      +91 770-210-2097
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-4 h-4 text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-white/40 text-[10px] font-semibold uppercase tracking-wider mb-0.5">Email</p>
-                    <a href="mailto:khalidbabusyed@gmail.com" className="text-white text-sm font-medium hover:text-blue-400 transition-colors break-all">
-                      khalidbabusyed@gmail.com
-                    </a>
-                  </div>
+              <div className="flex items-start gap-3.5 border border-[#e2e8f0] rounded-xl p-3 bg-white shadow-sm">
+                <Coins className="w-4 h-4 text-[#0f172a] mt-0.5 flex-shrink-0" />
+                <div>
+                  <h4 className="text-[#0f172a] font-semibold text-xs mb-0.5">Security Deposit</h4>
+                  <p className="text-[#64748b] text-[11px] leading-relaxed">Two-wheeler asset deposit or refundable monetary deposit.</p>
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Section 2: Fixed Height FAQ Block (Locks dimensions entirely) */}
+          <div className="h-[230px] flex flex-col justify-end">
+            <h3 className="text-[#0f172a] font-bold text-[11px] tracking-[0.2em] uppercase mb-3 text-opacity-90">
+              FREQUENTLY ASKED QUESTIONS.
+            </h3>
+
+            {/* The outer container and inner panels use rigid layout rules to prevent any size mutation */}
+            <div className="border border-[#e2e8f0] rounded-xl divide-y divide-[#e2e8f0] bg-white shadow-sm overflow-hidden h-[175px] flex flex-col justify-start">
+              {faqs.map((faq, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div key={idx} className="bg-white flex-shrink-0">
+                    <button
+                      onClick={() => toggleFaq(idx)}
+                      className="w-full flex items-center justify-between gap-4 p-3 text-left text-[#0f172a] hover:bg-[#f8fafc] transition-colors"
+                    >
+                      <span className="text-xs font-semibold leading-none truncate">{faq.q}</span>
+                      <ChevronDown 
+                        className={`w-3.5 h-3.5 text-[#64748b] flex-shrink-0 transition-transform duration-200 ${
+                          isOpen ? "transform rotate-180 text-[#0f172a]" : ""
+                        }`}
+                      />
+                    </button>
+
+                    <div 
+                      className={`overflow-hidden transition-all duration-200 ease-in-out ${
+                        isOpen ? "max-h-[75px] border-t border-[#f1f5f9]" : "max-h-0"
+                      }`}
+                    >
+                      <p className="p-3 text-[11px] text-[#64748b] bg-[#f8fafc] leading-relaxed dynamic-text-box">
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
+
+        {/* Right Column: Coverage Map Card matching exact layout specifications (5/12 Cols) */}
+        <div className="lg:col-span-5 border border-[#e2e8f0] rounded-2xl p-8 bg-white shadow-sm w-full max-w-xl mx-auto flex flex-col justify-between h-[520px]">
+          <div>
+            <div className="flex items-center gap-2.5 mb-2">
+              <MapPin className="w-5 h-5 text-[#0f172a]" />
+              <h3 className="text-[#0f172a] font-bold text-lg tracking-tight">
+                Coverage Map
+              </h3>
+            </div>
+
+            <p className="text-[#64748b] text-xs mb-6">
+              Care Hospital Arilova hub with priority delivery limits:
+            </p>
+
+            {/* Locations Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-6">
+              {[
+                "Simhachalam",
+                "Madurawada",
+                "Gajuwaka",
+                "NAD X Road",
+                "Railway Station",
+                "Vizag Airport",
+              ].map((location) => (
+                <div
+                  key={location}
+                  className="flex items-center gap-2 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg px-3 py-2.5 text-[#334155] text-xs font-medium"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#64748b] flex-shrink-0" />
+                  <span className="truncate">{location}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Dark Navy Button matching the hero layout style */}
+          <a
+            href="https://maps.app.goo.gl/aH4iYWQzd7aYqMbTA"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-center gap-2 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-semibold py-4 rounded-xl transition-all shadow-sm mt-auto"
+          >
+            <ExternalLink className="w-4 h-4" />
+            <span>Open in Google Maps</span>
+          </a>
+        </div>
+
       </div>
     </section>
   );

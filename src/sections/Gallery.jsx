@@ -15,7 +15,7 @@ export default function Gallery() {
     <section id="gallery" className="py-24 bg-[#F8FAFC]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-14 text-center">
-          <p className="text-[#1E3A8A] font-bold text-sm uppercase tracking-widest mb-3">Gallery</p>
+          <p className="text-[#94A3B8] font-bold text-sm uppercase tracking-widest mb-3">Gallery</p>
           <h2 className="text-3xl md:text-4xl font-bold text-[#0F172A]">Moments from Our Journeys</h2>
         </div>
 
