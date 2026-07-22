@@ -303,24 +303,27 @@ export default function HeroSection() {
         }
       });
 
-      // Initialize Live Vehicles with random starting locations
-      vehicleStates = INITIAL_FLEET.map((cfg) => {
-        const randomFromKey =
-          PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
+      // Pre-assign unique start/destination pairs so no two cars share
+      // the same road. Shuffle for starts, rotate by half for destinations
+      // (guaranteed derangement — no car goes to its own start).
+      const shuffledStarts = [...PLACE_KEYS].sort(() => Math.random() - 0.5);
+      const half = Math.ceil(shuffledStarts.length / 2);
+      const shuffledDests = [
+        ...shuffledStarts.slice(half),
+        ...shuffledStarts.slice(0, half),
+      ];
 
-        let randomToKey =
-          PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
-        while (randomToKey === randomFromKey) {
-          randomToKey =
-            PLACE_KEYS[Math.floor(Math.random() * PLACE_KEYS.length)];
-        }
+      // Initialize Live Vehicles with unique starting locations
+      vehicleStates = INITIAL_FLEET.map((cfg, i) => {
+        const fromKey = shuffledStarts[i];
+        const toKey = shuffledDests[i];
 
         const marker = new maplibregl.Marker({
           element: buildCarMarkerElement(cfg.status),
           rotationAlignment: "viewport",
           pitchAlignment: "viewport",
         })
-          .setLngLat(PLACES[randomFromKey])
+          .setLngLat(PLACES[fromKey])
           .addTo(map);
 
         return {
@@ -328,8 +331,8 @@ export default function HeroSection() {
           status: cfg.status,
           marker,
           baseSpeed: cfg.baseSpeed,
-          currentLocationKey: randomFromKey,
-          destinationLocationKey: randomToKey,
+          currentLocationKey: fromKey,
+          destinationLocationKey: toKey,
           state: "fetching",
           route: null,
           distanceTravelled: 0,
@@ -482,8 +485,8 @@ export default function HeroSection() {
         .hero-map .maplibregl-canvas { outline: none; }
 
         .map-car {
-          width: 58px;
-          height: 34px;
+          width: 35px;
+          height: 20px;
           pointer-events: none;
           will-change: transform;
           transition: transform 0.08s linear;
@@ -495,7 +498,7 @@ export default function HeroSection() {
           width: 100%;
           height: 100%;
           object-fit: contain;
-          transform: rotate(-90deg);
+          transform: rotate(90deg);
           transform-origin: center center;
           display: block;
         }
